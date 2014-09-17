@@ -10,6 +10,20 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\pbamboo_asset.cpp" />
+    <ClCompile Include="..\..\src\pbamboo_context.cpp" />
+    <ClCompile Include="..\..\src\pbook.cpp" />
+    <ClCompile Include="..\..\src\pcontent.cpp" />
+    <ClCompile Include="..\..\src\ppage.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\pbamboo_asset.h" />
+    <ClInclude Include="..\..\src\pbamboo_context.h" />
+    <ClInclude Include="..\..\src\pbook.h" />
+    <ClInclude Include="..\..\src\pcontent.h" />
+    <ClInclude Include="..\..\src\ppage.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{592613DF-8699-49FE-8343-482A8A3215FA}</ProjectGuid>
     <RootNamespace>cpptest</RootNamespace>
@@ -41,12 +55,12 @@
     <_ProjectFileVersion>11.0.60315.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(FITECH)\lib\msvc2012\Debug\</OutDir>
+    <OutDir>$(FIBAMBOO)\lib\msvc2012\Debug\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(FITECH)\lib\msvc2012\Release\</OutDir>
+    <OutDir>$(FIBAMBOO)\lib\msvc2012\Release\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
@@ -60,7 +74,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(FITECH)/3rdparty/platforms/msvc2012/gles20/include;$(FITECH)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FITECH)/include;$(FIBAMBOO)/include;$(FIPAPER3D)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
@@ -76,7 +90,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(FITECH)/3rdparty/platforms/msvc2012/gles20/include;$(FITECH)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FITECH)/include;$(FIPAPER3D)/include;$(FIBAMBOO)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -89,16 +103,6 @@
       <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\platform\win32\main.cpp" />
-    <ClCompile Include="..\..\src\platform\win32\pwin32input.cpp" />
-    <ClCompile Include="..\..\src\platform\win32\pwin32surface.cpp" />
-    <ClCompile Include="..\..\src\platform\win32\pwin32window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\platform\win32\pwin32surface.h" />
-    <ClInclude Include="..\..\src\platform\win32\pwin32window.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

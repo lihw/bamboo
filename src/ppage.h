@@ -14,23 +14,26 @@
 
 class PBook;
 class PRenderState;
+class PScene;
+class PXmlElement;
 
 class P_DLLEXPORT PPage
 {
     friend class PBook;
 
 public:
-    PPage(PBook *book, puint32 pageNo);
+    PPage(PBook *book, puint32 pageNumber);
     ~PPage();
 
     void render(PRenderState *renderState);
     void update();
     void setVisiblity(pbool flag);
+    void setNumberOfScenes(puint32 number);
 
     pchar *html();
-    P_INLINE puint32 pageNo() const { return m_pageNo; }
+    P_INLINE puint32 pageNumber() const { return m_pageNumber; }
     P_INLINE puint32 numberOfScenes() const { return m_scenes.count(); }
-    P_INLINE PCanvas scene(puint32 index) const { return m_scenes[index]; }
+    P_INLINE PScene *scene(puint32 index) const { return m_scenes[index]; }
 
 private:
     void clear();
@@ -38,12 +41,11 @@ private:
 
 private:
     PBook            *m_book;
-    puint32           m_pageNo;
+    puint32           m_pageNumber;
     pchar            *m_html;
     PArray<PScene *>  m_scenes;
     pbool             m_visible;
     pchar            *m_htmlFile;    // The html file path in the archive.
-    PArray<pchar *>   m_sceneFiles; // The scene file path in the archive.
 };
 
 

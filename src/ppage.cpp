@@ -10,16 +10,28 @@
 
 #include "ppage.h"
 
-#include <Bamboo/pcanvas.h>
+#include <Bamboo/ppage.h>
+#include <Bamboo/pbook.h>
+
+#include <Paper3D/pscene.h>
+#include <Paper3D/presourcemanager.h>
 
 #include <PFoundation/pnew.h>
+#include <PFoundation/pcontext.h>
+#include <PFoundation/pinputstream.h>
+#include <PFoundation/parchivefile.h>
+#include <PFoundation/pxmlelement.h>
 
 
-PPage::PPage(PBook *book, puint32 pageNo)
+PPage::PPage(PBook *book, puint32 pageNumber)
 {
-    m_book   = book;
-    m_pageNo = pageNo;
-    m_html   = P_NULL;
+    m_book         = book;
+    m_pageNumber   = pageNumber;
+    m_html         = P_NULL;
+
+    pchar htmlFile[1024];
+    psprintf(htmlFile, 1024, "page/page%04d.bmh", pageNumber);
+    m_htmlFile     = pstrdup(htmlFile);
 }
 
 PPage::~PPage()
@@ -29,19 +41,21 @@ PPage::~PPage()
 
 void PPage::update()
 {
-    if (!m_scenesFile.isEmpty() && m_scenes.isEmpty())
+    for (puint32 i = 0; i < m_scenes.count(); ++i)
     {
-        for (puint32 i = 0; i < m_sceneFiles.count(); ++i)
+        if (m_scenes[i] == P_NULL)
         {
             pchar name[1024];
-            psprintf(name, 1024, "scene%03d", i);
-            PScene *scene = PNEW(PScene(name, m_book->context()));
-            m_scenes.append(scene);
-
-            if (!scene->load(m_sceneFiles[i]))
+            psprintf(name, 1024, "page/page%04d_%02d.bms", m_pageNumber, i + 1);
+            m_scenes[i] = PNEW(PScene(name, m_book->context()));
+            if (!m_scenes[i]->load(name))
             {
                 continue;
             }
+        }
+        else
+        {
+            m_scenes[i]->update();
         }
     }
 }
@@ -54,13 +68,14 @@ pchar *PPage::html()
 
         PArchiveFile *archive = resourceManager->archive();
         PInputStream inputStream;
-        if (!archive->createInputStream(path, &inputStream))
+        if (!archive->createInputStream(m_htmlFile, &inputStream))
         {
-            PLOG_ERROR("Failed to read scene configuration file at %s", path);
+            PLOG_ERROR("Failed to read scene configuration file at %s.", m_htmlFile);
             return false;
         }
         
-        m_html = inputStream.readEntireFile();
+        puint8 *htmlText = (puint8 *)m_html;
+        inputStream.readAllBytesAsString(htmlText);
     }
 
     return m_html;
@@ -72,7 +87,7 @@ void PPage::render(PRenderState *renderState)
     {
         for (puint32 i = 0; i < m_scenes.count(); ++i)
         {
-            m_scenes[i]->update(renderState);
+            m_scenes[i]->render(renderState);
         }
     }
 }
@@ -82,51 +97,19 @@ void PPage::setVisiblity(pbool flag)
     m_visible = flag;
 }
 
-pbool PPage::unpack(const PXmlElement *xmlElement)
+void PPage::setNumberOfScenes(puint32 number)
 {
-    // Sanity check.
-    if (pstrcmp(xmlElement->name(), "page") != 0)
-    {
-        PLOG_ERROR("It is not a page element");
-        return false;
-    }
-    
-    // Destroy the old content.
     for (puint32 i = 0; i < m_scenes.count(); ++i)
     {
         PDELETE(m_scenes[i]);
     }
-    for (puint32 i = 0; i < m_sceneFiles.count(); ++i)
+    m_scenes.resize(number);
+    for (puint32 i = 0; i < m_scenes.count(); ++i)
     {
-        PDELETEARRAY(m_sceneFiles[i]);
+        m_scenes[i] = P_NULL;
     }
-
-    PXmlElement childElement = xmlElement->firstChild();
-    while (childElement.isValid())
-    {
-        if (pstrcmp(childElement.name(), "html") == 0)
-        {
-            const pchar *htmlFileValue = childElement.attribute("file");
-            PASSERT(htmlFileValue != P_NULL);
-            m_htmlFile = pstrdup(htmlFile);
-        }
-        else if (pstrcmp(childElement.name(), "scene") == 0)
-        {
-            const pchar *sceneFileValue = childElement.attribute("file");
-            PASSERT(sceneFileValue != P_NULL);
-            m_sceneFiles.append(pstrdup(sceneFileValue));
-        }
-        else
-        {
-            PLOG_WARNING("Unknown element node (%s) in page.", childElement.name());
-        }
-    }
-
-    m_visible = false;
-
-    return true;
 }
-    
+
 void PPage::clear()
 {
     PDELETEARRAY(m_html);
@@ -134,10 +117,6 @@ void PPage::clear()
 
     for (puint32 i = 0; i < m_scenes.count(); ++i)
     {
-        PDELETE(m_canvas);
-    }
-    for (puint32 i = 0; i < m_sceneFiles.count(); ++i)
-    {
-        PDELETEARRAY(m_sceneFiles[i]);
+        PDELETE(m_scenes[i]);
     }
 }

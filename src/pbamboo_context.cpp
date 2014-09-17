@@ -29,11 +29,11 @@ PBambooContext::~PBambooContext()
 pbool PBambooContext::onInitialized()
 {
     m_book = module<PBook>("book");
-    if (!m_book->load())
+    if (!m_book->load(properties()->m_archiveName.c_str()))
     {
         return false;
     }
-    book->setCurrentPage(1);
+    m_book->setCurrentPageNumber(1);
 
     return true;
 }

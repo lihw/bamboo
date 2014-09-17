@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -60,12 +60,12 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
       <CompileAs>Default</CompileAs>
-      <AdditionalIncludeDirectories>$(FIPAPER3D)\include;$(FITECH)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(FIPAPER3D)\include;$(FITECH)\include;$(FIBAMBOO)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>paper3d.lib;pplatform.lib;pfoundation.lib;zlib.lib;libpng.lib;tinyxml.lib;libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>paper3d.lib;bamboo.lib;pplatform.lib;pfoundation.lib;zlib.lib;libpng.lib;tinyxml.lib;libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(FITECH)\lib\msvc2012\Debug;$(FIPAPER3D)\lib\msvc2012\Debug;$(FITECH)\3rdparty\platforms\msvc2012\libpng\lib\Debug\;$(FITECH)\3rdparty\platforms\msvc2012\tinyxml\lib\Debug\;$(FITECH)\3rdparty\platforms\msvc2012\zlib\lib\Debug\;$(FITECH)\3rdparty\platforms\msvc2012\gles20\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FIBAMBOO)\lib\msvc2012\Debug;$(FITECH)\lib\msvc2012\Debug;$(FIPAPER3D)\lib\msvc2012\Debug;$(FITECH)\3rdparty\platforms\msvc2012\libpng\lib\Debug\;$(FITECH)\3rdparty\platforms\msvc2012\tinyxml\lib\Debug\;$(FITECH)\3rdparty\platforms\msvc2012\zlib\lib\Debug\;$(FITECH)\3rdparty\platforms\msvc2012\gles20\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -105,17 +105,11 @@ copy $(OutDir)\$(ProjectName).par $(ProjectDir)..\..\res</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\mycontext.cpp" />
-    <ClCompile Include="..\..\src\myscene.cpp" />
     <ClCompile Include="..\..\src\pmain.cpp">
       <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>
       <PreprocessSuppressLineNumbers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessSuppressLineNumbers>
       <PreprocessKeepComments Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessKeepComments>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\mycontext.h" />
-    <ClInclude Include="..\..\src\myscene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

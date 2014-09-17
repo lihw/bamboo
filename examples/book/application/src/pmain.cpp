@@ -1,12 +1,12 @@
 // pmain.cpp
-// "NormalMap" example
+// "Book" example
 //
 // Copyright 2012 - 2014 Future Interface. All rights reserved.
 //
 // Future Interface  lihw81@gmail.com
 //
 
-#include "mycontext.h"
+#include <Bamboo/bamboo.h>
 
 #include <Paper3D/paper3d.h>
 
@@ -20,11 +20,11 @@ void pMain(int argc, char* argv[])
     if (PActivity::s_activity != P_NULL)
     {
         PContextProperties contextProperties;
-        contextProperties.m_contextName = PString("normalmap");
-        contextProperties.m_archiveName = PString("normalmap.par");
+        contextProperties.m_contextName = PString("book");
+        contextProperties.m_archiveName = PString("book.par");
 #if defined P_WIN32
-        contextProperties.m_windowWidth = 1024;
-        contextProperties.m_windowHeight = 768;
+        contextProperties.m_windowWidth = 1280;
+        contextProperties.m_windowHeight = 720;
         contextProperties.m_multisamples = 2;
         contextProperties.m_maxFps = 30;
 #elif defined P_ANDROID
@@ -32,9 +32,9 @@ void pMain(int argc, char* argv[])
         contextProperties.m_windowHeight = 0xffffffff;
 #endif
 
-        PContext* context = PNEW(MyContext(contextProperties));
-		context->addModule(PNEW(PResourceManager(context)));
-		context->addModule(PNEW(PSceneManager(context)));
+        PContext* context = PNEW(PBambooContext(contextProperties));
+		context->addModule(PNEW(PBambooAsset(context)));
+		context->addModule(PNEW(PBook(context)));
 		// TODO: initialize more modules here.
 
         PActivity::s_activity->addContext(context);
