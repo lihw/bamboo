@@ -1,4 +1,4 @@
-// ppage.h
+// bpage.h
 // A page of the book.
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,55 +7,74 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#ifndef PPAGE_H
-#define PPAGE_H
+#ifndef BPAGE_H
+#define BPAGE_H
 
 #include <PFoundation/parray.h>
 
-class PBook;
-class PRenderState;
-class PScene;
-class PXmlElement;
+class BBook;
+class BCanvas;
 
-class P_DLLEXPORT PPage
+class PRenderState;
+class PXmlElement;
+class PEvent;
+
+class P_DLLEXPORT BPage
 {
-    friend class PBook;
+    friend class BBook;
 
 public:
-    PPage(PBook *book, puint32 pageNumber);
-    ~PPage();
+    BPage(BBook *book, puint32 pageNumber);
+    ~BPage();
 
     void render(PRenderState *renderState);
     void update();
     void setVisiblity(pbool flag);
-    void setNumberOfScenes(puint32 number);
+    void setNumberOfCanvases(puint32 number);
 
     const pchar *html();
     P_INLINE puint32 pageNumber() const { return m_pageNumber; }
-    P_INLINE puint32 numberOfScenes() const { return m_scenes.count(); }
-    P_INLINE PScene *scene(puint32 index) const { return m_scenes[index]; }
+    P_INLINE puint32 numberOfCanvases() const { return m_canvases.count(); }
+    P_INLINE BCanvas *canvas(puint32 index) const { return m_canvases[index]; }
     
-    pbool onPanBegin(PEvent *event);
-    pbool onPan(PEvent *event);
-    pbool onPanEnd(PEvent *event);
+    void onPanBegin(pint32 x, pint32 y);
+    void onPan(pint32 x, pint32 y, pint32 dx, pint32 dy);
+    void onPanEnd(pint32 x, pint32 y, pint32 dx, pint32 dy);
    
-    pbool onPinchBegin(PEvent *event);
-    pbool onPinch(PEvent *event);
-    pbool onPinchEnd(PEvent *event);
+    void onPinchBegin(const pint32 *pt1, const pint32 *pt2);
+    void onPinch(const pint32 *pt1, const pint32 *pt2, pfloat32 angle, pfloat32 scaling);
+    void onPinchEnd();
+
+    void onLongPress(pint32 dx, pint32 dy);
 
 private:
     void clear();
     pbool unpack(const PXmlElement *xmlElement);
 
 private:
-    PBook            *m_book;
-    puint32           m_pageNumber;
-    pchar            *m_html;
-    PArray<PScene *>  m_scenes;
-    pbool             m_visible;
-    pchar            *m_htmlFile;    // The html file path in the archive.
-    PScene           *m_currentScene; // The current interacting scene 
+    // The page can display canvas only, the mixture of
+    // canvas and HTML5 and some state in between when
+    // a canvas is scaling up or scaling down.
+    enum 
+    {
+        ZOOMOUT,
+        TRANSITION_SCALEUP,
+        ZOOMIN,
+        TRANSITION_SCALEDOWN,
+
+        NUM_STATES,
+    };
+
+    BBook              *m_book;
+    puint32             m_pageNumber;
+    pchar              *m_html;
+    PArray<BCanvas*>    m_canvases;
+    pbool               m_visible;
+    pchar              *m_htmlFile;    // The html file path in the archive.
+    BCanvas            *m_currentCanvas; // The current interacting canvas
+    puint32             m_state;
+    puint32             m_originalViewport[4];
 };
 
 
-#endif // !PPAGE_H
+#endif // !BPAGE_H

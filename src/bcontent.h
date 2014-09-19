@@ -1,4 +1,4 @@
-// pcontent.h
+// bcontent.h
 // The content of the book.
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,47 +7,47 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#ifndef PCONTENT_H
-#define PCONTENT_H
+#ifndef BCONTENT_H
+#define BCONTENT_H
 
 #include <PFoundation/parray.h>
 
 class PXmlElement;
-class PBook;
+class BBook;
 
 
-struct PContentEntry
+struct BContentEntry
 {
-    friend class PContent;
+    friend class BContent;
 
     puint32  level;      // Start from 1, the first level.
     pchar   *text;
     puint32  pageNumber;
 
 private:
-    PContentEntry() {}
-    ~PContentEntry() {}
+    BContentEntry() {}
+    ~BContentEntry() {}
 };
 
-class P_DLLEXPORT PContent
+class P_DLLEXPORT BContent
 {
-    friend class PBook;
+    friend class BBook;
 
 public:
-    PContent(PBook *book);
-    ~PContent();
+    BContent(BBook *book);
+    ~BContent();
 
     P_INLINE puint32 numberOfEntries() { return m_entries.count(); }
-    P_INLINE PContentEntry *entry(puint32 index) { return m_entries[index]; }
+    P_INLINE BContentEntry *entry(puint32 index) { return m_entries[index]; }
 
 private: 
     pbool unpack(const PXmlElement *xmlElement);
     void clear();
 
 private:
-    PArray<PContentEntry *> m_entries;
-    PBook *m_book;
+    PArray<BContentEntry *> m_entries;
+    BBook *m_book;
 };
 
 
-#endif // !PCONTENT_H
+#endif // !BCONTENT_H

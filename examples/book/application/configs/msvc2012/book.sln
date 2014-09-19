@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bamboo", "..\..\..\..\..\co
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "paper3d", "..\..\..\..\..\..\paper3d\configs\msvc2012\paper3d.vcxproj", "{77EFBF95-FF3A-4864-A910-F0F75C474100}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pfoundation", "..\..\..\..\..\..\tech\configs\msvc2012\pfoundation.vcxproj", "{326F2E70-7DF2-41B3-93F5-5D5C574D6363}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{77EFBF95-FF3A-4864-A910-F0F75C474100}.Debug|Win32.Build.0 = Debug|Win32
 		{77EFBF95-FF3A-4864-A910-F0F75C474100}.Release|Win32.ActiveCfg = Release|Win32
 		{77EFBF95-FF3A-4864-A910-F0F75C474100}.Release|Win32.Build.0 = Release|Win32
+		{326F2E70-7DF2-41B3-93F5-5D5C574D6363}.Debug|Win32.ActiveCfg = Debug|Win32
+		{326F2E70-7DF2-41B3-93F5-5D5C574D6363}.Debug|Win32.Build.0 = Debug|Win32
+		{326F2E70-7DF2-41B3-93F5-5D5C574D6363}.Release|Win32.ActiveCfg = Release|Win32
+		{326F2E70-7DF2-41B3-93F5-5D5C574D6363}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

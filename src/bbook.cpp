@@ -1,4 +1,4 @@
-// pbook.cpp
+// bbook.cpp
 // A book
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,10 +7,10 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#include "pbook.h"
+#include "bbook.h"
 
-#include <Bamboo/pcontent.h>
-#include <Bamboo/ppage.h>
+#include <Bamboo/bcontent.h>
+#include <Bamboo/bpage.h>
 
 #include <Paper3D/presourcemanager.h>
 #include <Paper3D/prenderstate.h>
@@ -25,8 +25,9 @@
 #include <PFoundation/pconststring.h>
 
 
-PBook::PBook(PContext *context)
+BBook::BBook(PContext *context)
     : PModule("book", context)
+	, m_value(0, 1, 9)
 {
     m_content           = P_NULL;
     m_currentPageNumber = 0xffffffff;
@@ -37,7 +38,7 @@ PBook::PBook(PContext *context)
     PScene::s_nodeFactory.initialize();
 }
 
-PBook::~PBook()
+BBook::~BBook()
 {
     clear();
 
@@ -47,12 +48,12 @@ PBook::~PBook()
     PScene::s_nodeFactory.uninitialize();
 }
     
-void PBook::setCurrentPageNumber(puint32 pageNumber)
+void BBook::setCurrentPageNumber(puint32 pageNumber)
 {
     m_currentPageNumber = pageNumber;
 }
 
-pbool PBook::load(const pchar *bookArchive)
+pbool BBook::load(const pchar *bookArchive)
 {
     // Reload the book archive.
     PResourceManager *resourceManager = context()->module<PResourceManager>("resource-manager");
@@ -111,7 +112,7 @@ pbool PBook::load(const pchar *bookArchive)
     m_pages.resize(pageNumber);
     for (pint32 i = 0; i < pageNumber; ++i)
     {
-        m_pages[i] = PNEW(PPage(this, i + 1));
+        m_pages[i] = PNEW(BPage(this, i + 1));
     }
 
     PXmlElement childElement = firstNode.firstChild();
@@ -121,7 +122,7 @@ pbool PBook::load(const pchar *bookArchive)
     { 
         if (pstrcmp(childElement.name(), "content") == 0)
         {
-            m_content = PNEW(PContent(this));
+            m_content = PNEW(BContent(this));
             if (!m_content->unpack(&childElement))
             {
                 clear();
@@ -162,7 +163,7 @@ pbool PBook::load(const pchar *bookArchive)
                     return false;
                 }
 
-                m_pages[pageNumber - 1]->setNumberOfScenes(sceneNumber);
+                m_pages[pageNumber - 1]->setNumberOfCanvases(sceneNumber);
 
                 pageElement = pageElement.nextSibling();
             }
@@ -178,22 +179,23 @@ pbool PBook::load(const pchar *bookArchive)
     return true;
 }
     
-pbool PBook::initialize()
+pbool BBook::initialize()
 {
     m_renderState = PNEW(PRenderState(m_context->rect()));
+    
     return true;
 }
 
-pbool PBook::resume()
+pbool BBook::resume()
 {
     return true;
 }
 
-void PBook::pause()
+void BBook::pause()
 {
 }
 
-void PBook::update()
+void BBook::update()
 {
     if (!m_pages.isEmpty() && m_currentPageNumber < m_pages.count())
     {
@@ -204,7 +206,7 @@ void PBook::update()
     }
 }
     
-void PBook::clear()
+void BBook::clear()
 {
     m_currentPageNumber = 0xffffffff;
 

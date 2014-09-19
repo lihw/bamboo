@@ -1,4 +1,4 @@
-// pbamboo_context.h
+// bcontext.h
 // A bamboo context.
 //
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,20 +7,20 @@
 // Future Interface  lihw81@gmail.com
 //
 
-#ifndef PBAMBOO_CONTEXT_H
-#define PBAMBOO_CONTEXT_H
+#ifndef BCONTEXT_H
+#define BCONTEXT_H
 
 #include <PFoundation/pcontext.h>
 #include <PFoundation/pcontextproperties.h>
 #include <PFoundation/parcball.h>
 
-class PBook;
+class BBook;
 
-class PBambooContext : public PContext
+class BContext : public PContext
 {
 public:
-    PBambooContext(const PContextProperties &properties);
-    ~PBambooContext();
+    BContext(const PContextProperties &properties);
+    ~BContext();
     
     virtual pbool onInitialized();
     virtual pbool onUpdate();
@@ -28,19 +28,10 @@ public:
     
     virtual pbool onKeyboard(PEvent *event);
 
-    virtual pbool onPanBegin(PEvent *event);
-    virtual pbool onPan(PEvent *event);
-    virtual pbool onPanEnd(PEvent *event);
-    
-    virtual pbool onPinchBegin(PEvent *event);
-    virtual pbool onPinch(PEvent *event);
-    virtual pbool onPinchEnd(PEvent *event);
-
-    P_INLINE PBook *book() const { return m_book; }
+    P_INLINE BBook *book() const { return m_book; }
 
 private:
-    PBook    *m_book;
-    PArcball  m_arcball;
+    BBook    *m_book;
 };
 
-#endif // PBAMBOO_CONTEXT_H
+#endif // BCONTEXT_H

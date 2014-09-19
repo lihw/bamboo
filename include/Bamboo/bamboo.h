@@ -1,6 +1,7 @@
 
-#include "pbamboo_context.h"
-#include "pbook.h"
-#include "pcontent.h"
-#include "ppage.h"
-#include "pbamboo_asset.h"
+#include "bcontext.h"
+#include "bbook.h"
+#include "bcontent.h"
+#include "bpage.h"
+#include "basset.h"
+#include "bcanvas.h"

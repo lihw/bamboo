@@ -1,17 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\src\pbook.cpp" />
-    <ClCompile Include="..\..\src\pcontent.cpp" />
-    <ClCompile Include="..\..\src\ppage.cpp" />
-    <ClCompile Include="..\..\src\pbamboo_context.cpp" />
-    <ClCompile Include="..\..\src\pbamboo_asset.cpp" />
+    <ClCompile Include="..\..\src\basset.cpp" />
+    <ClCompile Include="..\..\src\bbook.cpp" />
+    <ClCompile Include="..\..\src\bcanvas.cpp" />
+    <ClCompile Include="..\..\src\bcontent.cpp" />
+    <ClCompile Include="..\..\src\bcontext.cpp" />
+    <ClCompile Include="..\..\src\bpage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\pbook.h" />
-    <ClInclude Include="..\..\src\pcontent.h" />
-    <ClInclude Include="..\..\src\ppage.h" />
-    <ClInclude Include="..\..\src\pbamboo_context.h" />
-    <ClInclude Include="..\..\src\pbamboo_asset.h" />
+    <ClInclude Include="..\..\src\basset.h" />
+    <ClInclude Include="..\..\src\bbook.h" />
+    <ClInclude Include="..\..\src\bcanvas.h" />
+    <ClInclude Include="..\..\src\bcontent.h" />
+    <ClInclude Include="..\..\src\bcontext.h" />
+    <ClInclude Include="..\..\src\bpage.h" />
   </ItemGroup>
 </Project>

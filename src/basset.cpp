@@ -1,4 +1,4 @@
-// pbamboo_asset.cpp
+// basset.cpp
 // Manage the assets of book
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,18 +7,18 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#include "pbamboo_asset.h"
+#include "basset.h"
 
-PBambooAsset::PBambooAsset(PContext* context)
+BAsset::BAsset(PContext* context)
     : PResourceManager(context)
 {
 }
 
-PBambooAsset::~PBambooAsset()
+BAsset::~BAsset()
 {
 }
 
-pbool PBambooAsset::initialize()
+pbool BAsset::initialize()
 {
     return true;
 }

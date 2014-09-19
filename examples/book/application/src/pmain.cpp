@@ -32,9 +32,9 @@ void pMain(int argc, char* argv[])
         contextProperties.m_windowHeight = 0xffffffff;
 #endif
 
-        PContext* context = PNEW(PBambooContext(contextProperties));
-		context->addModule(PNEW(PBambooAsset(context)));
-		context->addModule(PNEW(PBook(context)));
+        PContext* context = PNEW(BContext(contextProperties));
+		context->addModule(PNEW(BAsset(context)));
+		context->addModule(PNEW(BBook(context)));
 		// TODO: initialize more modules here.
 
         PActivity::s_activity->addContext(context);

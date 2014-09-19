@@ -1,4 +1,4 @@
-// pbamboo_asset.h
+// basset.h
 // Manage the assets of book
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,20 +7,20 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#ifndef PBAMBOO_KASSET_H
-#define PBAMBOO_KASSET_H
+#ifndef BASSET_H
+#define BASSET_H
 
 #include <Paper3D/presourcemanager.h>
 
 
-class P_DLLEXPORT PBambooAsset : public PResourceManager
+class P_DLLEXPORT BAsset : public PResourceManager
 {
 public:
-    PBambooAsset(PContext* context);
-    virtual ~PBambooAsset();
+    BAsset(PContext* context);
+    virtual ~BAsset();
 
     virtual pbool initialize();
 };
 
 
-#endif // !PAMBOO_ASSET_H
+#endif // !BASSET_H

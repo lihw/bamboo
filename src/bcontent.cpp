@@ -1,4 +1,4 @@
-// pcontent.cpp
+// bcontent.cpp
 // The content of the book.
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,25 +7,25 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#include "pcontent.h"
+#include "bcontent.h"
 
-#include <Bamboo/pbook.h>
+#include <Bamboo/bbook.h>
 
 #include <PFoundation/pxmlelement.h>
 #include <PFoundation/pconststring.h>
 
 
-PContent::PContent(PBook *book)
+BContent::BContent(BBook *book)
 {
     m_book = book;
 }
 
-PContent::~PContent()
+BContent::~BContent()
 {
     clear();
 }
     
-pbool PContent::unpack(const PXmlElement *xmlElement)
+pbool BContent::unpack(const PXmlElement *xmlElement)
 {
     // Sanity check.
     if (pstrcmp(xmlElement->name(), "content") != 0)
@@ -66,7 +66,7 @@ pbool PContent::unpack(const PXmlElement *xmlElement)
                     }
                     else
                     {
-                        PContentEntry *entry = PNEW(PContentEntry);
+                        BContentEntry *entry = PNEW(BContentEntry);
                         entry->level      = level;
                         entry->text       = pstrdup(textValue);
                         entry->pageNumber = pageNumber;
@@ -87,7 +87,7 @@ pbool PContent::unpack(const PXmlElement *xmlElement)
     return true;
 }
 
-void PContent::clear()
+void BContent::clear()
 {
     for (puint32 i = 0; i < m_entries.count(); ++i)
     {

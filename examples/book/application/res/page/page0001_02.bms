@@ -1,10 +1,10 @@
 <scene name="page0001_02.bms" viewport="0.5,0,0.5,0.5">
   <root name="RootNode" transform="s: 1.00000, 1.00000, 1.00000,r: 0.00000,-0.00000, 0.00000,t: 0.00000, 0.00000, 0.00000" >
-    <drawable name="brain" transform="s: 1.00000, 1.00000, 1.00000,r: 0.00000,-0.00000, 0.00000,t:-0.02035, 1.92622,69.78701" >
+    <drawable name="brain" transform="s: 1.00000, 1.00000, 1.00000,r: 0.00000,-0.00000, 0.00000,t:-0.02035, 1.92622,0" >
       <geometry id="mesh/brain.pmh" />
       <material id="material/texture.pmt" texture="texture/brain.png" normal_texture="texture/brain_normal.png" shininess="80.0" />
     </drawable>
-    <camera name="camera" fixed="true" projection="perspective,fov:45.0,aspect:-1,znear:0.1,zfar:1000.0" lookat="eye:0,1.9,80.0,center:0,0,0,up:0,1,0" />
+    <camera name="camera" fixed="true" projection="perspective,fov:45.0,aspect:-1,znear:0.1,zfar:1000.0" lookat="eye:0,1.9,10.2,center:0,0,0,up:0,1,0" />
     <directionallight name="light0" enabled="true" intensity="1.0" color="rgba:0.3,0.3,0.3,0.5" castshadow="false" direction="-1,-1,-1" />
   </root>
 </scene>

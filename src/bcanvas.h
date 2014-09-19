@@ -1,4 +1,4 @@
-// pbamboo_canvas.h
+// bcanvas.h
 // A canvas in the page.
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,24 +7,24 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#ifndef PBAMBOO_CANVAS
-#define PBAMBOO_CANVAS
+#ifndef BCANVAS_H
+#define BCANVAS_H
 
 #include <Paper3D/pscene.h>
 
-class PMatrix3x3;
+struct PQuaternion;
 
 
-class P_DLLEXPORT PBambooCanvas : public PScene
+class P_DLLEXPORT BCanvas : public PScene
 {
     P_OBJECT
 
-    PBambooCanvas(const PBambooCanvas &other) {}
-    void operator=(const PBambooCanvas &other) {}
+    BCanvas(const BCanvas &other) : PScene(P_NULL, P_NULL) {}
+    void operator=(const BCanvas &other) {}
 
 public:
-    PBambooScene(const pchar *name, PContext *context);
-    virtual ~PBambooScene();
+    BCanvas(const pchar *name, PContext *context);
+    virtual ~BCanvas();
 
     virtual void update();
     
@@ -32,15 +32,16 @@ public:
     // auto rotation
     void useHand(pbool enabled);
     // Rotate the scene with given matrix.
-    void rotate(const PMatrix3x3 &matrix);
+    void rotate(const PQuaternion &quat);
+    void rotate(pfloat32 dx, pfloat32 dy);
     // The auto rotation is enabled by default.
     void enableAutoRotation(pbool enabled);
 
 private:
-    pbool m_useHand;
-    
+    pbool      m_autoRotating;
+    PVector3   m_currentRotation;
 };
 
 
 
-#endif // !PBAMBOO_CANVAS
+#endif // !BCANVAS_H

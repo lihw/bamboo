@@ -1,4 +1,4 @@
-// pbook.h
+// bbook.h
 // A book
 // 
 // Copyright 2012 - 2014 Future Interface. 
@@ -7,30 +7,37 @@
 // Hongwei Li lihw81@gmail.com
 //
 
-#ifndef PBOOK_H
-#define PBOOK_H
+#ifndef BBOOK_H
+#define BBOOK_H
 
 #include <PFoundation/parray.h>
 #include <PFoundation/pmodule.h>
+#include <PFoundation/parcball.h>
+#include <PFoundation/pinterpolatedvalue.h>
 
-class PPage;
-class PContent;
+class BPage;
+class BContent;
+
 class PRenderState;
 
-class P_DLLEXPORT PBook : public PModule
+
+class P_DLLEXPORT BBook : public PModule
 {
+    BBook(const BBook &other) : PModule(P_NULL, P_NULL), m_value(0, 0, 0) {}
+    void operator=(const BBook &other) {}
+
 public:
-    PBook(PContext *context);
-    virtual ~PBook();
+    BBook(PContext *context);
+    virtual ~BBook();
 
     pbool load(const pchar *bookArchive);
 
     P_INLINE puint32 numberOfPages() const { return m_pages.count(); }
-    P_INLINE PPage *page(puint32 pageno) const { return m_pages[pageno]; }
-    P_INLINE PContent *content() const { return m_content; }
+    P_INLINE BPage *page(puint32 pageno) const { return m_pages[pageno]; }
+    P_INLINE BContent *content() const { return m_content; }
     P_INLINE pchar *title() const { return m_title; }
     P_INLINE puint32 currentPageNumber() const { return m_currentPageNumber; }
-    P_INLINE PPage *currentPage() const 
+    P_INLINE BPage *currentPage() const 
     { 
         if (m_currentPageNumber <= m_pages.count()) 
         {
@@ -38,6 +45,8 @@ public:
         }
         return P_NULL;
     }
+    P_INLINE PArcball *arcball() { return &m_arcball; }
+    P_INLINE PInterpolatedValue *value() { return &m_value; }
 
     void setCurrentPageNumber(puint32 pageNumber);
 
@@ -50,12 +59,14 @@ private:
     void clear();
 
 private:
-    PArray<PPage*> m_pages;
-    PContent      *m_content;
-    PRenderState  *m_renderState;
-    puint32        m_currentPageNumber;
-    pchar         *m_title;
+    PArray<BPage*>      m_pages;
+    BContent           *m_content;
+    PRenderState       *m_renderState;
+    puint32             m_currentPageNumber;
+    pchar              *m_title;
+    PArcball            m_arcball;
+	PInterpolatedValue  m_value;    // scaleup-down transition value.
 };
 
 
-#endif // !PBOOK_H
+#endif // !BBOOK_H
