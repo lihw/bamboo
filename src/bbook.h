@@ -30,6 +30,14 @@ public:
     P_INLINE PContent *content() const { return m_content; }
     P_INLINE pchar *title() const { return m_title; }
     P_INLINE puint32 currentPageNumber() const { return m_currentPageNumber; }
+    P_INLINE PPage *currentPage() const 
+    { 
+        if (m_currentPageNumber <= m_pages.count()) 
+        {
+            return m_pages[m_currentPageNumber < 1];
+        }
+        return P_NULL;
+    }
 
     void setCurrentPageNumber(puint32 pageNumber);
 

@@ -27,7 +27,14 @@ public:
     virtual void onDestroy();
     
     virtual pbool onKeyboard(PEvent *event);
-    virtual pbool onTouch(PEvent *event);
+
+    virtual pbool onPanBegin(PEvent *event);
+    virtual pbool onPan(PEvent *event);
+    virtual pbool onPanEnd(PEvent *event);
+    
+    virtual pbool onPinchBegin(PEvent *event);
+    virtual pbool onPinch(PEvent *event);
+    virtual pbool onPinchEnd(PEvent *event);
 
     P_INLINE PBook *book() const { return m_book; }
 

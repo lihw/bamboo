@@ -63,9 +63,64 @@ pbool PBambooContext::onKeyboard(PEvent *event)
     return true;
 }
 
+pbool PBambooContext::onPanBegin(PEvent *event)
+{
+    PPage *page = m_book->currentPage();
+    if (page != P_NULL)
+    {
+        return page->onPanBegin(event);
+    }
+}
+ 
+pbool PBambooContext::onPan(PEvent *event)
+{
+    PPage *page = m_book->currentPage();
+    if (page != P_NULL)
+    {
+        return page->onPan(event);
+    }
+}
+
+pbool PBambooContext::onPanEnd(PEvent *event)
+{
+    PPage *page = m_book->currentPage();
+    if (page != P_NULL)
+    {
+        return page->onPanEnd(event);
+    }
+}
+    
+pbool PBambooContext::onPinchBegin(PEvent *event)
+{
+    PPage *page = m_book->currentPage();
+    if (page != P_NULL)
+    {
+        return page->onPinchBegin(event);
+    }
+}
+
+pbool PBambooContext::onPinch(PEvent *event)
+{
+    PPage *page = m_book->currentPage();
+    if (page != P_NULL)
+    {
+        return page->onPinch(event);
+    }
+}
+
+pbool PBambooContext::onPinchEnd(PEvent *event)
+{
+    PPage *page = m_book->currentPage();
+    if (page != P_NULL)
+    {
+        return page->onPinchEnd(event);
+    }
+}
+
+   /*
+ 
 pbool PBambooContext::onTouch(PEvent *event)
 {    
-    /*
     if (event->getType() == P_EVENT__TOUCH_DOWN)
     {
         m_arcball.restart();
@@ -87,10 +142,10 @@ pbool PBambooContext::onTouch(PEvent *event)
     {
         m_scene->setRotating(false);
     }
-    */
 
     return true;
 }
 
+    */
 
 

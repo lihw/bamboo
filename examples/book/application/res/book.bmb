@@ -1,0 +1,18 @@
+<book title="Test" pagenumber="7" >
+  <content>
+    <entry level="1" text="chapter 1" pageno="1" />
+    <entry level="1" text="chapter 2" pageno="2" />
+    <entry level="1" text="chapter 3" pageno="3" />
+    <entry level="1" text="chapter 4" pageno="4" />
+    <entry level="2" text="section 4.1" pageno="4" />
+    <entry level="2" text="section 4.2" pageno="4" />
+    <entry level="2" text="section 4.3" pageno="4" />
+    <entry level="1" text="chapter 5" pageno="5" />
+    <entry level="1" text="chapter 6" pageno="6" />
+    <entry level="1" text="chapter 7" pageno="7" />
+  </content>
+  <pages>
+    <page no="1" scenes="3" />
+    <page no="2" scenes="2" />
+  </pages>
+</book>

@@ -60,7 +60,7 @@ void PPage::update()
     }
 }
     
-pchar *PPage::html()
+const pchar *PPage::html()
 {
     if (m_html == P_NULL && m_htmlFile != P_NULL)
     {
@@ -119,4 +119,69 @@ void PPage::clear()
     {
         PDELETE(m_scenes[i]);
     }
+}
+    
+pbool PPage::onPanBegin(PEvent *event)
+{
+    // Check if the touch fall into one of scenes.
+    if (m_visible)
+    {
+        puint32 x = event->parameter(P_EVENTPARAMETER__TOUCH_X).toInt();
+        puint32 y = event->parameter(P_EVENTPARAMETER__TOUCH_Y).toInt();
+
+        PASSERT(m_currentScene == P_NULL);
+
+        for (puint32 i = 0; i < m_scenes.count(); ++i)
+        {
+            const puint32 *viewport = m_scenes[i]->viewport();
+            if (x > viewport[0] && 
+                y > viewport[1] &&
+                x < viewport[0] + viewport[2] &&
+                y < viewport[1] + viewport[3])
+            {
+                m_currentScene = m_scenes[i];
+                m_book->arcball()->restart();
+                m_scenes[i]->useHand(true);
+                break;
+            }
+        }
+    }
+}
+
+pbool PPage::onPan(PEvent *event)
+{
+    if (m_visible && m_currentScene != P_NULL)
+    {
+        puint32 x = event->parameter(P_EVENTPARAMETER__TOUCH_X).toInt();
+        puint32 y = event->parameter(P_EVENTPARAMETER__TOUCH_Y).toInt();
+
+        const puint32 *viewport = m_currentScene->viewport();
+        pfloat32 xx = (pfloat32)x / (pfloat32)(viewport[2] - 1) * 2.0f - 1.0f;
+        pfloat32 yy = (pfloat32)(viewport[3] - 1 - y) / (pfloat32)(viewport[3] - 1) * 2.0f - 1.0f;
+        
+        m_book->arcball()->updateMouse(xx, yy);
+
+        m_currentScene->rotate(m_book->arcball()->rotationMatrix())
+    }
+}
+
+pbool PPage::onPanEnd(PEvent *event)
+{
+    if (m_visibile && m_currentScene != P_NULL)
+    {
+        m_currentScene->useHand(false);
+        m_currentScene = P_NULL;
+    }
+}
+    
+pbool PPage::onPinchBegin(PEvent *event)
+{
+}
+
+pbool PPage::onPinch(PEvent *event)
+{
+}
+
+pbool PPage::onPinchEnd(PEvent *event)
+{
 }

@@ -14,6 +14,7 @@
 
 #include <Paper3D/presourcemanager.h>
 #include <Paper3D/prenderstate.h>
+#include <Paper3D/pscene.h>
 
 #include <PFoundation/pcontext.h>
 #include <PFoundation/parchivefile.h>
@@ -31,11 +32,19 @@ PBook::PBook(PContext *context)
     m_currentPageNumber = 0xffffffff;
     m_renderState       = P_NULL;
     m_title             = P_NULL;
+
+    PScene::s_effectFactory.initialize();
+    PScene::s_nodeFactory.initialize();
 }
 
 PBook::~PBook()
 {
     clear();
+
+    PDELETE(m_renderState);
+
+    PScene::s_effectFactory.uninitialize();
+    PScene::s_nodeFactory.uninitialize();
 }
     
 void PBook::setCurrentPageNumber(puint32 pageNumber)
@@ -171,6 +180,7 @@ pbool PBook::load(const pchar *bookArchive)
     
 pbool PBook::initialize()
 {
+    m_renderState = PNEW(PRenderState(m_context->rect()));
     return true;
 }
 
@@ -196,11 +206,14 @@ void PBook::update()
     
 void PBook::clear()
 {
+    m_currentPageNumber = 0xffffffff;
+
     PDELETE(m_content);
-    PDELETE(m_renderState);
     for (puint32 i = 0; i < m_pages.count(); ++i)
     {
         PDELETE(m_pages[i]);
     }
     PDELETEARRAY(m_title);
 }
+
+
