@@ -16,6 +16,9 @@
 
 #include <Paper3D/pscene.h>
 #include <Paper3D/presourcemanager.h>
+#include <Paper3D/prendertarget.h>
+#include <Paper3D/prenderpass.h>
+
 
 #include <PFoundation/pnew.h>
 #include <PFoundation/pcontext.h>
@@ -36,11 +39,18 @@ BPage::BPage(BBook *book, puint32 pageNumber)
     pchar htmlFile[1024];
     psprintf(htmlFile, 1024, "page/page%04d.bmh", pageNumber);
     m_htmlFile = pstrdup(htmlFile);
+
+    m_clearRenderPass = PNEW(PRenderPass("clear", P_NULL));
+    m_clearRenderPass->target()->setColorClearValue(P_COLOR_BLACK_TRANSPARENT);
+    const puint32 *r = m_book->context()->rect();
+    m_clearRenderPass->target()->setViewport(r[0], r[1], r[2], r[3]);
 }
 
 BPage::~BPage()
 {
     clear();
+
+    PDELETE(m_clearRenderPass);
 }
 
 void BPage::update()
@@ -55,6 +65,12 @@ void BPage::update()
             if (!m_canvases[i]->load(name))
             {
                 continue;
+            }
+            switch (i)
+            {
+                case 0: m_canvases[i]->setBackgroundColor(P_COLOR_RED); break;
+                case 1: m_canvases[i]->setBackgroundColor(P_COLOR_GREEN); break;
+                case 2: m_canvases[i]->setBackgroundColor(P_COLOR_BLUE); break;
             }
         }
         else
@@ -71,19 +87,22 @@ void BPage::update()
                 m_book->value()->update(deltaTime);    
                 pfloat32 v = m_book->value()->value();
 
-                const puint32 *r = m_book->context()->rect();
-
-                puint32 viewport[4];
-                viewport[0] = pLerp(m_originalViewport[0], r[0], v);
-                viewport[1] = pLerp(m_originalViewport[1], r[1], v);
-                viewport[2] = pLerp(m_originalViewport[2], r[2], v);
-                viewport[3] = pLerp(m_originalViewport[3], r[3], v);
-
-                m_currentCanvas->setViewport(viewport);
-
                 if (v > (1.0f - 1e-4f))
                 {
                     m_state = ZOOMIN;
+                    m_currentCanvas->setViewport(P_NULL);
+                }
+                else
+                {
+                    const puint32 *r = m_book->context()->rect();
+
+                    puint32 viewport[4];
+                    viewport[0] = pLerp(m_originalViewport[0], r[0], v);
+                    viewport[1] = pLerp(m_originalViewport[1], r[1], v);
+                    viewport[2] = pLerp(m_originalViewport[2], r[2], v);
+                    viewport[3] = pLerp(m_originalViewport[3], r[3], v);
+
+                    m_currentCanvas->setViewport(viewport);
                 }
             }
 
@@ -96,19 +115,22 @@ void BPage::update()
                 m_book->value()->update(deltaTime);    
                 pfloat32 v = m_book->value()->value();
 
-                const puint32 *r = m_book->context()->rect();
-
-                puint32 viewport[4];
-                viewport[0] = pLerp(r[0], m_originalViewport[0], v);
-                viewport[1] = pLerp(r[1], m_originalViewport[1], v);
-                viewport[2] = pLerp(r[2], m_originalViewport[2], v);
-                viewport[3] = pLerp(r[3], m_originalViewport[3], v);
-
-                m_currentCanvas->setViewport(viewport);
-
                 if (v > (1.0f - 1e-4f))
                 {
                     m_state = ZOOMOUT;
+                    m_currentCanvas->setViewport(m_originalViewport);
+                }
+                else
+                {
+                    const puint32 *r = m_book->context()->rect();
+
+                    puint32 viewport[4];
+                    viewport[0] = pLerp(r[0], m_originalViewport[0], v);
+                    viewport[1] = pLerp(r[1], m_originalViewport[1], v);
+                    viewport[2] = pLerp(r[2], m_originalViewport[2], v);
+                    viewport[3] = pLerp(r[3], m_originalViewport[3], v);
+
+                    m_currentCanvas->setViewport(viewport);
                 }
             }
             break;
@@ -140,6 +162,10 @@ void BPage::render(PRenderState *renderState)
 {
     if (m_visible)
     {
+        // Before render canvases, we should clear the current screen buffer.
+        m_clearRenderPass->render(renderState);
+
+        // Render each canvas.
         if (m_state == ZOOMIN)
         {
             m_currentCanvas->render(renderState);
@@ -201,20 +227,10 @@ void BPage::onPanBegin(pint32 x, pint32 y)
     // Check if the touch fall into one of scenes.
     if (m_visible)
     {
-        y = m_book->context()->rect()[3] - 1 - y;
-
-        for (puint32 i = 0; i < m_canvases.count(); ++i)
+        m_currentCanvas = locateCanvas(x, y);
+        if (m_currentCanvas != P_NULL)
         {
-            const puint32 *viewport = m_canvases[i]->viewport();
-            if ((puint32)x > viewport[0] && 
-                (puint32)y > viewport[1] &&
-                (puint32)x < viewport[0] + viewport[2] &&
-                (puint32)y < viewport[1] + viewport[3])
-            {
-                m_currentCanvas = m_canvases[i];
-                //m_book->arcball()->restart();
-                m_currentCanvas->useHand(true);
-            }
+            m_currentCanvas->useHand(true);
         }
     }
 }
@@ -297,34 +313,46 @@ void BPage::onLongPress(pint32 x, pint32 y)
     {
         if (m_state == ZOOMIN || m_state == ZOOMOUT)
         {
-            if (m_state == ZOOMOUT)
+            m_currentCanvas = locateCanvas(x, y);
+            if (m_currentCanvas != P_NULL)
             {
-                y = m_book->context()->rect()[3] - 1 - y;
-
-                for (puint32 i = 0; i < m_canvases.count(); ++i)
+                if (m_state == ZOOMOUT)
                 {
-                    const puint32 *viewport = m_canvases[i]->viewport();
-                    if ((puint32)x > viewport[0] && 
-                        (puint32)y > viewport[1] &&
-                        (puint32)x < viewport[0] + viewport[2] &&
-                        (puint32)y < viewport[1] + viewport[3])
-                    {
-                        m_currentCanvas = m_canvases[i];
-                        const puint32 *viewport = m_currentCanvas->viewport();
-                        m_originalViewport[0] = viewport[0];
-                        m_originalViewport[1] = viewport[1];
-                        m_originalViewport[2] = viewport[2];
-                        m_originalViewport[3] = viewport[3];
-
-                        break;
-                    }
-            
+                    const puint32 *viewport = m_currentCanvas->viewport();
+                    m_originalViewport[0] = viewport[0];
+                    m_originalViewport[1] = viewport[1];
+                    m_originalViewport[2] = viewport[2];
+                    m_originalViewport[3] = viewport[3];
                 }
+
+                m_state = (m_state + 1) % NUM_STATES;
+
+                m_book->value()->setValue(0, true);
             }
-
-            m_state = (m_state + 1) % NUM_STATES;
-
-            m_book->value()->setValue(0, true);
         }
     }
+}
+    
+BCanvas *BPage::locateCanvas(pint32 x, pint32 y)
+{
+    if (m_state == ZOOMOUT)
+    {
+        y = m_book->context()->rect()[3] - 1 - y;
+
+        for (puint32 i = 0; i < m_canvases.count(); ++i)
+        {
+            const puint32 *viewport = m_canvases[i]->viewport();
+            if ((puint32)x > viewport[0] && 
+                (puint32)y > viewport[1] &&
+                (puint32)x < viewport[0] + viewport[2] &&
+                (puint32)y < viewport[1] + viewport[3])
+            {
+                return m_canvases[i];
+            }
+        }
+    
+        return P_NULL;
+    }
+
+    return m_currentCanvas;
 }

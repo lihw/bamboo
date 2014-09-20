@@ -17,7 +17,7 @@ class BCanvas;
 
 class PRenderState;
 class PXmlElement;
-class PEvent;
+class PRenderPass;
 
 class P_DLLEXPORT BPage
 {
@@ -50,6 +50,7 @@ public:
 private:
     void clear();
     pbool unpack(const PXmlElement *xmlElement);
+    BCanvas *locateCanvas(pint32 x, pint32 y);
 
 private:
     // The page can display canvas only, the mixture of
@@ -73,7 +74,8 @@ private:
     pchar              *m_htmlFile;    // The html file path in the archive.
     BCanvas            *m_currentCanvas; // The current interacting canvas
     puint32             m_state;
-    puint32             m_originalViewport[4];
+    puint32             m_originalViewport[4]; // The original viewport of current canvas
+    PRenderPass        *m_clearRenderPass;
 };
 
 
