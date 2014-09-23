@@ -35,6 +35,7 @@ BPage::BPage(BBook *book, puint32 pageNumber)
     m_html          = P_NULL;
     m_currentCanvas = P_NULL;
     m_state         = ZOOMOUT;
+    m_visible       = true;
 
     pchar htmlFile[1024];
     psprintf(htmlFile, 1024, "page/page%04d.bmh", pageNumber);
@@ -148,7 +149,7 @@ const pchar *BPage::html()
         if (!archive->createInputStream(m_htmlFile, &inputStream))
         {
             PLOG_ERROR("Failed to read scene configuration file at %s.", m_htmlFile);
-            return false;
+            return P_NULL;
         }
         
         puint8 *htmlText = (puint8 *)m_html;

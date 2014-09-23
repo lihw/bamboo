@@ -1,0 +1,356 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		ED9C49A4199A23330083A14B /* buildall */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = ED9C49A5199A23330083A14B /* Build configuration list for PBXAggregateTarget "buildall" */;
+			buildPhases = (
+				ED9C49A8199AE5660083A14B /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = buildall;
+			productName = buildall;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		ED64732619D019530087E0FB /* basset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED64731A19D019530087E0FB /* basset.cpp */; };
+		ED64732719D019530087E0FB /* bbook.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED64731C19D019530087E0FB /* bbook.cpp */; };
+		ED64732819D019530087E0FB /* bcanvas.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED64731E19D019530087E0FB /* bcanvas.cpp */; };
+		ED64732919D019530087E0FB /* bcontent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED64732019D019530087E0FB /* bcontent.cpp */; };
+		ED64732A19D019530087E0FB /* bcontext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED64732219D019530087E0FB /* bcontext.cpp */; };
+		ED64732B19D019530087E0FB /* bpage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED64732419D019530087E0FB /* bpage.cpp */; };
+		ED9C48BE199A221E0083A14B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED9C48BD199A221E0083A14B /* Foundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		ED9C48B8199A221E0083A14B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		ED64731A19D019530087E0FB /* basset.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = basset.cpp; path = ../../src/basset.cpp; sourceTree = "<group>"; };
+		ED64731B19D019530087E0FB /* basset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = basset.h; path = ../../src/basset.h; sourceTree = "<group>"; };
+		ED64731C19D019530087E0FB /* bbook.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bbook.cpp; path = ../../src/bbook.cpp; sourceTree = "<group>"; };
+		ED64731D19D019530087E0FB /* bbook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bbook.h; path = ../../src/bbook.h; sourceTree = "<group>"; };
+		ED64731E19D019530087E0FB /* bcanvas.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bcanvas.cpp; path = ../../src/bcanvas.cpp; sourceTree = "<group>"; };
+		ED64731F19D019530087E0FB /* bcanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bcanvas.h; path = ../../src/bcanvas.h; sourceTree = "<group>"; };
+		ED64732019D019530087E0FB /* bcontent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bcontent.cpp; path = ../../src/bcontent.cpp; sourceTree = "<group>"; };
+		ED64732119D019530087E0FB /* bcontent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bcontent.h; path = ../../src/bcontent.h; sourceTree = "<group>"; };
+		ED64732219D019530087E0FB /* bcontext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bcontext.cpp; path = ../../src/bcontext.cpp; sourceTree = "<group>"; };
+		ED64732319D019530087E0FB /* bcontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bcontext.h; path = ../../src/bcontext.h; sourceTree = "<group>"; };
+		ED64732419D019530087E0FB /* bpage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bpage.cpp; path = ../../src/bpage.cpp; sourceTree = "<group>"; };
+		ED64732519D019530087E0FB /* bpage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bpage.h; path = ../../src/bpage.h; sourceTree = "<group>"; };
+		ED9C48BA199A221E0083A14B /* libbamboo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libbamboo.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED9C48BD199A221E0083A14B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		ED9C48CB199A221E0083A14B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		ED9C48CE199A221E0083A14B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ED9C48B7199A221E0083A14B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED9C48BE199A221E0083A14B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ED9C48B1199A221E0083A14B = {
+			isa = PBXGroup;
+			children = (
+				ED9C49A3199A22EF0083A14B /* bamboo */,
+				ED9C48BC199A221E0083A14B /* Frameworks */,
+				ED9C48BB199A221E0083A14B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ED9C48BB199A221E0083A14B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ED9C48BA199A221E0083A14B /* libbamboo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ED9C48BC199A221E0083A14B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED9C48BD199A221E0083A14B /* Foundation.framework */,
+				ED9C48CB199A221E0083A14B /* XCTest.framework */,
+				ED9C48CE199A221E0083A14B /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ED9C49A3199A22EF0083A14B /* bamboo */ = {
+			isa = PBXGroup;
+			children = (
+				ED64731A19D019530087E0FB /* basset.cpp */,
+				ED64731B19D019530087E0FB /* basset.h */,
+				ED64731C19D019530087E0FB /* bbook.cpp */,
+				ED64731D19D019530087E0FB /* bbook.h */,
+				ED64731E19D019530087E0FB /* bcanvas.cpp */,
+				ED64731F19D019530087E0FB /* bcanvas.h */,
+				ED64732019D019530087E0FB /* bcontent.cpp */,
+				ED64732119D019530087E0FB /* bcontent.h */,
+				ED64732219D019530087E0FB /* bcontext.cpp */,
+				ED64732319D019530087E0FB /* bcontext.h */,
+				ED64732419D019530087E0FB /* bpage.cpp */,
+				ED64732519D019530087E0FB /* bpage.h */,
+			);
+			name = bamboo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ED9C48B9199A221E0083A14B /* bamboo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED9C48DD199A221E0083A14B /* Build configuration list for PBXNativeTarget "bamboo" */;
+			buildPhases = (
+				ED9C48B6199A221E0083A14B /* Sources */,
+				ED9C48B7199A221E0083A14B /* Frameworks */,
+				ED9C48B8199A221E0083A14B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = bamboo;
+			productName = Paper3D;
+			productReference = ED9C48BA199A221E0083A14B /* libbamboo.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ED9C48B2199A221E0083A14B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = FutureInterface;
+			};
+			buildConfigurationList = ED9C48B5199A221E0083A14B /* Build configuration list for PBXProject "Bamboo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = ED9C48B1199A221E0083A14B;
+			productRefGroup = ED9C48BB199A221E0083A14B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED9C48B9199A221E0083A14B /* bamboo */,
+				ED9C49A4199A23330083A14B /* buildall */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		ED9C49A8199AE5660083A14B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target bamboo ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos ARCHS=\"arm64 armv7 armv7s\"  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target bamboo -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/libbamboo.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/libbamboo.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/libbamboo.a\"\n\n# Last touch. copy the static library file to output folder.\nLIBRARY_OUTPUTFOLDER=${SRCROOT}/../../lib/ios/${CONFIGURATION}\nmkdir -p ${LIBRARY_OUTPUTFOLDER}\ncp -Rf \"${UNIVERSAL_OUTPUTFOLDER}/libbamboo.a\" ${LIBRARY_OUTPUTFOLDER}";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ED9C48B6199A221E0083A14B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED64732619D019530087E0FB /* basset.cpp in Sources */,
+				ED64732819D019530087E0FB /* bcanvas.cpp in Sources */,
+				ED64732A19D019530087E0FB /* bcontext.cpp in Sources */,
+				ED64732919D019530087E0FB /* bcontent.cpp in Sources */,
+				ED64732719D019530087E0FB /* bbook.cpp in Sources */,
+				ED64732B19D019530087E0FB /* bpage.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		ED9C48DB199A221E0083A14B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos7.1;
+			};
+			name = Debug;
+		};
+		ED9C48DC199A221E0083A14B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos7.1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ED9C48DE199A221E0083A14B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/Paper3D.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../include,
+					"$(FITECH)/include",
+					"$(FIPAPER3D)/include",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		ED9C48DF199A221E0083A14B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/Paper3D.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					../../include,
+					"$(FITECH)/include",
+					"$(FIPAPER3D)/include",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		ED9C49A6199A23330083A14B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ED9C49A7199A23330083A14B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ED9C48B5199A221E0083A14B /* Build configuration list for PBXProject "Bamboo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED9C48DB199A221E0083A14B /* Debug */,
+				ED9C48DC199A221E0083A14B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED9C48DD199A221E0083A14B /* Build configuration list for PBXNativeTarget "bamboo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED9C48DE199A221E0083A14B /* Debug */,
+				ED9C48DF199A221E0083A14B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED9C49A5199A23330083A14B /* Build configuration list for PBXAggregateTarget "buildall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED9C49A6199A23330083A14B /* Debug */,
+				ED9C49A7199A23330083A14B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ED9C48B2199A221E0083A14B /* Project object */;
+}

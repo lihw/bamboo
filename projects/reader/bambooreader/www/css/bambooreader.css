@@ -1,0 +1,28 @@
+/*
+Copyright Future Interface 2012 -2014. All Rights Rerserved.
+*/
+
+/* Portrait layout (default) */
+.book {
+    background-color: black; 
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    position: fixed; /* absolute size and position */
+    left: 0px;
+    top: 0px;
+}
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+.book {
+    background-color: black; 
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    position: fixed; /* absolute size and position */
+    left: 0px;
+    top: 0px;
+}
