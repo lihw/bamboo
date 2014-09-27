@@ -41,7 +41,7 @@ public:
     { 
         if (m_currentPageNumber <= m_pages.count()) 
         {
-            return m_pages[m_currentPageNumber < 1];
+            return m_pages[m_currentPageNumber - 1];
         }
         return P_NULL;
     }
