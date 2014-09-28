@@ -69,9 +69,9 @@ void BPage::update()
             }
             switch (i)
             {
-                case 0: m_canvases[i]->setBackgroundColor(P_COLOR_RED); break;
-                case 1: m_canvases[i]->setBackgroundColor(P_COLOR_GREEN); break;
-                case 2: m_canvases[i]->setBackgroundColor(P_COLOR_BLUE); break;
+                case 0: m_canvases[i]->setBackgroundColor(P_COLOR_BLACK_TRANSPARENT); break;
+                //case 1: m_canvases[i]->setBackgroundColor(P_COLOR_GREEN); break;
+                //case 2: m_canvases[i]->setBackgroundColor(P_COLOR_BLUE); break;
             }
         }
         else

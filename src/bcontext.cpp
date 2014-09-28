@@ -122,7 +122,7 @@ pbool BContext::onInitialized()
     {
         return false;
     }
-    m_book->setCurrentPageNumber(1);
+    m_book->openPage(3);
     
     gestureManager()->addHandler(PNEW(LongPressHandler(m_book)));
     gestureManager()->addHandler(PNEW(PinchHandler(m_book)));

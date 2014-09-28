@@ -41,14 +41,14 @@ public:
     { 
         if (m_currentPageNumber <= m_pages.count()) 
         {
-            return m_pages[m_currentPageNumber < 1];
+            return m_pages[m_currentPageNumber - 1];
         }
         return P_NULL;
     }
     P_INLINE PArcball *arcball() { return &m_arcball; }
     P_INLINE PInterpolatedValue *value() { return &m_value; }
 
-    void setCurrentPageNumber(puint32 pageNumber);
+    void openPage(puint32 pageNumber);
 
     virtual pbool initialize();
     virtual pbool resume();

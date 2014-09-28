@@ -48,7 +48,7 @@ BBook::~BBook()
     PScene::s_nodeFactory.uninitialize();
 }
     
-void BBook::setCurrentPageNumber(puint32 pageNumber)
+void BBook::openPage(puint32 pageNumber)
 {
     m_currentPageNumber = pageNumber;
 }

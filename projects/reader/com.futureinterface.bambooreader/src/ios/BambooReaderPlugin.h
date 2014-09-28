@@ -17,5 +17,6 @@
 - (void)closeBook:(CDVInvokedUrlCommand*)command;
 - (void)openPage:(CDVInvokedUrlCommand*)command;
 - (void)showPageGL:(CDVInvokedUrlCommand*)command;
+- (void)hidePageGL:(CDVInvokedUrlCommand*)command;
 
 @end

@@ -5,11 +5,11 @@
 // Author: Hongwei Li <lihw81@gmail.com>
 
 
-#import "BambooPlugin.h"
+#import "BambooReaderPlugin.h"
 
 #import <Cordova/CDV.h>
 
-//#include <Bamboo/bamboo.h>
+#include <Bamboo/bamboo.h>
 
 
 // @interface BambooPlugin ()
@@ -19,7 +19,11 @@
 
 @implementation BambooReaderPlugin
 
-- (void)openBook:(CDVInvokedUrlCommand*)command 
+- (void)pluginInitialize
+{
+}
+
+- (void)openBook:(CDVInvokedUrlCommand*)command
 {
 }
 
@@ -29,10 +33,32 @@
 
 - (void)openPage:(CDVInvokedUrlCommand*)command 
 {
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    
+    int page = [[command.arguments objectAtIndex:0] intValue];
+    
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:page], @"page", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"bamboo-openpage" object:self userInfo:dict];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
-- (void)showPageGL:(CDVInvokedUrlCommand*)command 
+- (void)showPageGL:(CDVInvokedUrlCommand*)command
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"bamboo-showpagegl" object:self];
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+- (void)hidePageGL:(CDVInvokedUrlCommand*)command
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"bamboo-hidepagegl" object:self];
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
@@ -142,4 +168,5 @@
 */
 
 @end
+
 
