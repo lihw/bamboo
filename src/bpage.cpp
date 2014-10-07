@@ -38,15 +38,11 @@ BPage::BPage(BBook *book, puint32 pageNumber)
     pchar htmlFile[1024];
     psprintf(htmlFile, 1024, "page/page%04d.bmt", pageNumber);
     m_htmlFile = pstrdup(htmlFile);
-
-
 }
 
 BPage::~BPage()
 {
     clear();
-
-
 }
 
 void BPage::update()
@@ -222,7 +218,10 @@ void BPage::unload()
     
         PDELETEARRAY(m_html);
 
-        // TODO: unload asset
+        for (puint32 i = 0; i < m_canvases.count(); ++i)
+        {
+            PDELETE(m_canvases[i]);
+        }
     }
 }
 
@@ -248,6 +247,12 @@ void BPage::onPanBegin(pint32 x, pint32 y)
         if (m_currentCanvas != P_NULL)
         {
             m_currentCanvas->useHand(true);
+
+            if (!m_currentCanvas->isFirstPersonView())
+            {
+                m_book->arcball()->restart();
+                PLOG_INFO("\n\n");
+            }
         }
     }
 }
@@ -256,24 +261,25 @@ void BPage::onPan(pint32 x, pint32 y, pint32 dx, pint32 dy)
 {
     if (m_visible && m_currentCanvas != P_NULL)
     {
-        //puint32 x = event->parameter(P_EVENTPARAMETER__TOUCH_X).toInt();
-        //puint32 y = event->parameter(P_EVENTPARAMETER__TOUCH_Y).toInt();
+        if (m_currentCanvas->isFirstPersonView())
+        {
+            const puint32 *viewport = m_currentCanvas->viewport();
+            pfloat32 xx = (pfloat32)dx / (pfloat32)viewport[2];
+            pfloat32 yy = (pfloat32)dy / (pfloat32)viewport[3];
 
-        //y = m_book->context()->rect()[3] - 1 - y;
+            m_currentCanvas->rotate(xx, yy);
+        }
+        else
+        {
+            y = m_book->context()->rect()[3] - 1 - y;
 
-        //const puint32 *viewport = m_currentCanvas->viewport();
-        //pfloat32 xx = (pfloat32)(x - viewport[0]) / (pfloat32)(viewport[2] - 1) * 2.0f - 1.0f;
-        //pfloat32 yy = (pfloat32)(y - viewport[1]) / (pfloat32)(viewport[3] - 1) * 2.0f - 1.0f;
+            const puint32 *viewport = m_currentCanvas->viewport();
+            pfloat32 xx = (pfloat32)(x - viewport[0]) / (pfloat32)(viewport[2] - 1) * 2.0f - 1.0f;
+            pfloat32 yy = (pfloat32)(y - viewport[1]) / (pfloat32)(viewport[3] - 1) * 2.0f - 1.0f;
 
-        //m_book->arcball()->updateMouse(xx, yy);
-
-        //m_currentCanvas->rotate(m_book->arcball()->rotation());
-        
-        const puint32 *viewport = m_currentCanvas->viewport();
-        pfloat32 xx = (pfloat32)dx / (pfloat32)viewport[2];
-        pfloat32 yy = (pfloat32)dy / (pfloat32)viewport[3];
-
-        m_currentCanvas->rotate(xx, yy);
+            m_book->arcball()->updateMouse(xx, yy);
+            m_currentCanvas->rotate(m_book->arcball()->deltaRotation());
+        }
     }
 }
 
@@ -331,7 +337,7 @@ void BPage::onLongPress(pint32 x, pint32 y)
         if (m_state == ZOOMIN || m_state == ZOOMOUT)
         {
             m_currentCanvas = locateCanvas(x, y);
-            if (m_currentCanvas != P_NULL)
+            if (m_currentCanvas != P_NULL && m_currentCanvas->isScalingEnabled())
             {
                 if (m_state == ZOOMOUT)
                 {

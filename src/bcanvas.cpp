@@ -18,7 +18,10 @@ P_OBJECT_DEFINE(BCanvas)
 BCanvas::BCanvas(const pchar *name, PContext *context)
     : PScene(name, context)
 {
-    m_autoRotating = true;
+    m_rotationEnabled = true;
+    m_rotationSpeed   = pVector3(0, 0.0001f, 0);
+    m_scalingEnabled  = true;
+    m_firstPersonView = false;
 }
 
 BCanvas::~BCanvas()
@@ -27,22 +30,31 @@ BCanvas::~BCanvas()
 
 void BCanvas::update()
 {
-    const pfloat32 xRotSpeed = -0.001f;
-    const pfloat32 yRotSpeed = -0.0005f;
-
-    if (m_autoRotating)
+    if (m_rotationEnabled)
     {
- 	    PVector3 r = m_root->transform().rotation();
-	    //r[0] += m_context->clock().deltaTime() * xRotSpeed;
-        r[1] += m_context->clock().deltaTime() * yRotSpeed;
+        pfloat32 dt = m_context->clock().deltaTime();
+        PVector3 r = m_root->transform().rotation();
+        r +=  m_rotationSpeed * dt;
 	    m_root->transform().setRotation(r);   
     }
+}
+    
+void BCanvas::setRotation(pfloat32 x, pfloat32 y, pfloat32 z)
+{
+    m_rotationSpeed.m_v[0] = x;
+    m_rotationSpeed.m_v[1] = y;
+    m_rotationSpeed.m_v[2] = z;
+}
+    
+void BCanvas::setRotationEnabled(pbool enabled)
+{
+    m_rotationEnabled = enabled;
 }
 
 void BCanvas::useHand(pbool enabled)
 {
-    m_autoRotating = !enabled;
-    if (!m_autoRotating)
+    m_rotationEnabled = !enabled;
+    if (!m_rotationEnabled)
     {
         // Save the current rotation.
         m_currentRotation = m_root->transform().rotation();
@@ -54,8 +66,7 @@ void BCanvas::rotate(const PQuaternion &quat)
     PVector3 r;
 
     pQuaternionGetRotation(quat.m_q, r.m_v[0], r.m_v[1], r.m_v[2]);
-    PLOG_INFO("(%f, %f, %f)", r.m_v[0], r.m_v[1], r.m_v[2]);
- 	    
+
     r += m_currentRotation;
 
     m_root->transform().setRotation(r);
@@ -63,6 +74,8 @@ void BCanvas::rotate(const PQuaternion &quat)
 
 void BCanvas::rotate(pfloat32 dx, pfloat32 dy)
 {
+    PASSERT(m_firstPersonView);
+
     PVector3 r;
     
     const pfloat32 rotSpeed = 5.0f;
@@ -76,7 +89,7 @@ void BCanvas::rotate(pfloat32 dx, pfloat32 dy)
     m_root->transform().setRotation(r);
 }
 
-void BCanvas::enableAutoRotation(pbool enabled)
+void BCanvas::setScalingEnabled(pbool enabled)
 {
-    m_autoRotating = enabled;
+    m_scalingEnabled = enabled;
 }

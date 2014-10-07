@@ -82,7 +82,6 @@ private:
     BCanvas            *m_currentCanvas; // The current interacting canvas
     puint32             m_state;
     puint32             m_originalViewport[4]; // The original viewport of current canvas
-
 };
 
 

@@ -27,19 +27,34 @@ public:
     virtual ~BCanvas();
 
     virtual void update();
-    
-    // Use hand to rotate the scene and disable the 
-    // auto rotation
-    void useHand(pbool enabled);
-    // Rotate the scene with given matrix.
+
+    // Set the scene to rotate continuosly. It is true by default.
+    void setRotationEnabled(pbool enabled);
+    P_INLINE pbool isRotationEnabled() const { return m_rotationEnabled; }
+    // By default, the scene rotates with y axis.
+    void setRotation(pfloat32 rx, pfloat32 ry, pfloat32 rz);
+    // Only effective in 3rd-person view.
     void rotate(const PQuaternion &quat);
+    // Only effective in first person view.
     void rotate(pfloat32 dx, pfloat32 dy);
-    // The auto rotation is enabled by default.
-    void enableAutoRotation(pbool enabled);
+    // Start top rotate with hand.
+    void useHand(pbool enabled);
+
+    // Is it the first person view? By default, it is false.
+    P_INLINE pbool isFirstPersonView() const { return m_firstPersonView; }
+
+    // The scene will be scaled to the fullscreen if this flag is set.
+    // It is true by default.
+    void setScalingEnabled(pbool enabled);
+    P_INLINE pbool isScalingEnabled() const { return m_scalingEnabled; }
+    
 
 private:
-    pbool      m_autoRotating;
-    PVector3   m_currentRotation;
+    pbool       m_rotationEnabled;
+    PVector3    m_rotationSpeed;
+    pbool       m_scalingEnabled;
+    pbool       m_firstPersonView;
+    PVector3    m_currentRotation;
 };
 
 

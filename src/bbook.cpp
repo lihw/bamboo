@@ -225,7 +225,7 @@ void BBook::update()
         {
             m_pages[m_currentPageNumber - 1]->update();
             m_renderState->beginDraw();
-            m_pages[m_currentPageNumber - 1]->render(m_renderState);
+             m_pages[m_currentPageNumber - 1]->render(m_renderState);
             m_renderState->endDraw();
         }
     }
