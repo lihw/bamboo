@@ -15,6 +15,8 @@
 #include <Paper3D/presourcemanager.h>
 #include <Paper3D/prenderstate.h>
 #include <Paper3D/pscene.h>
+#include <Paper3D/prenderpass.h>
+#include <Paper3D/prendertarget.h>
 
 #include <PFoundation/pcontext.h>
 #include <PFoundation/parchivefile.h>
@@ -33,7 +35,8 @@ BBook::BBook(PContext *context)
     m_currentPageNumber = 0xffffffff;
     m_renderState       = P_NULL;
     m_title             = P_NULL;
-
+    m_clearRenderPass   = P_NULL;
+    
     PScene::s_effectFactory.initialize();
     PScene::s_nodeFactory.initialize();
 }
@@ -43,6 +46,7 @@ BBook::~BBook()
     clear();
 
     PDELETE(m_renderState);
+    PDELETE(m_clearRenderPass);
 
     PScene::s_effectFactory.uninitialize();
     PScene::s_nodeFactory.uninitialize();
@@ -51,6 +55,11 @@ BBook::~BBook()
 void BBook::openPage(puint32 pageNumber)
 {
     m_currentPageNumber = pageNumber;
+}
+
+void BBook::closePage()
+{
+    m_currentPageNumber = 0xffffffff;
 }
 
 pbool BBook::load(const pchar *bookArchive)
@@ -176,6 +185,16 @@ pbool BBook::load(const pchar *bookArchive)
         childElement = childElement.nextSibling();
     }
 
+    // FIXME: have to defer the initialization of clear pass as in the construction,
+    // the viewport of context has not been ready.
+    if (m_clearRenderPass == P_NULL)
+    {
+        m_clearRenderPass = PNEW(PRenderPass("clear", P_NULL));
+        m_clearRenderPass->target()->setColorClearValue(P_COLOR_BLACK_TRANSPARENT);
+        const puint32 *r = context()->rect();
+        m_clearRenderPass->target()->setViewport(r[0], r[1], r[2], r[3]);
+    }
+
     return true;
 }
     
@@ -197,12 +216,18 @@ void BBook::pause()
 
 void BBook::update()
 {
-    if (!m_pages.isEmpty() && m_currentPageNumber < m_pages.count())
+    // Before render canvases, we should clear the current screen buffer.
+    if (!m_pages.isEmpty())
     {
-        m_pages[m_currentPageNumber - 1]->update();
-        m_renderState->beginDraw();
-        m_pages[m_currentPageNumber - 1]->render(m_renderState);
-        m_renderState->endDraw();
+        m_clearRenderPass->render(m_renderState);
+    
+        if (m_currentPageNumber <= m_pages.count())
+        {
+            m_pages[m_currentPageNumber - 1]->update();
+            m_renderState->beginDraw();
+            m_pages[m_currentPageNumber - 1]->render(m_renderState);
+            m_renderState->endDraw();
+        }
     }
 }
     

@@ -17,8 +17,6 @@
 #include <Paper3D/pscene.h>
 #include <Paper3D/presourcemanager.h>
 #include <Paper3D/prendertarget.h>
-#include <Paper3D/prenderpass.h>
-
 
 #include <PFoundation/pnew.h>
 #include <PFoundation/pcontext.h>
@@ -34,30 +32,34 @@ BPage::BPage(BBook *book, puint32 pageNumber)
     m_pageNumber    = pageNumber;
     m_html          = P_NULL;
     m_currentCanvas = P_NULL;
-    m_state         = ZOOMOUT;
+    m_state         = UNITIALIZED;
     m_visible       = true;
 
     pchar htmlFile[1024];
-    psprintf(htmlFile, 1024, "page/page%04d.bmh", pageNumber);
+    psprintf(htmlFile, 1024, "page/page%04d.bmt", pageNumber);
     m_htmlFile = pstrdup(htmlFile);
 
-    m_clearRenderPass = PNEW(PRenderPass("clear", P_NULL));
-    m_clearRenderPass->target()->setColorClearValue(P_COLOR_BLACK_TRANSPARENT);
-    const puint32 *r = m_book->context()->rect();
-    m_clearRenderPass->target()->setViewport(r[0], r[1], r[2], r[3]);
+
 }
 
 BPage::~BPage()
 {
     clear();
 
-    PDELETE(m_clearRenderPass);
+
 }
 
 void BPage::update()
 {
+    if (m_state == UNITIALIZED)
+    {
+        return ;
+    }
+    
     for (puint32 i = 0; i < m_canvases.count(); ++i)
     {
+        // We put the canvas loading here to avoid the multi-thread competition.
+        // See comments in open().
         if (m_canvases[i] == P_NULL)
         {
             pchar name[1024];
@@ -70,14 +72,12 @@ void BPage::update()
             switch (i)
             {
                 case 0: m_canvases[i]->setBackgroundColor(P_COLOR_BLACK_TRANSPARENT); break;
-                //case 1: m_canvases[i]->setBackgroundColor(P_COLOR_GREEN); break;
-                //case 2: m_canvases[i]->setBackgroundColor(P_COLOR_BLUE); break;
+                        //case 1: m_canvases[i]->setBackgroundColor(P_COLOR_GREEN); break;
+                        //case 2: m_canvases[i]->setBackgroundColor(P_COLOR_BLUE); break;
             }
         }
-        else
-        {
-            m_canvases[i]->update();
-        }
+            
+        m_canvases[i]->update();
     }
 
     switch (m_state)
@@ -138,34 +138,10 @@ void BPage::update()
     }
 }
     
-const pchar *BPage::html()
-{
-    if (m_html == P_NULL && m_htmlFile != P_NULL)
-    {
-        PResourceManager *resourceManager = m_book->context()->module<PResourceManager>("resource-manager");
-
-        PArchiveFile *archive = resourceManager->archive();
-        PInputStream inputStream;
-        if (!archive->createInputStream(m_htmlFile, &inputStream))
-        {
-            PLOG_ERROR("Failed to read scene configuration file at %s.", m_htmlFile);
-            return P_NULL;
-        }
-        
-        puint8 *htmlText = (puint8 *)m_html;
-        inputStream.readAllBytesAsString(htmlText);
-    }
-
-    return m_html;
-}
-
 void BPage::render(PRenderState *renderState)
 {
-    if (m_visible)
+    if (m_visible && m_state != UNITIALIZED)
     {
-        // Before render canvases, we should clear the current screen buffer.
-        m_clearRenderPass->render(renderState);
-
         // Render each canvas.
         if (m_state == ZOOMIN)
         {
@@ -207,6 +183,46 @@ void BPage::setNumberOfCanvases(puint32 number)
     for (puint32 i = 0; i < m_canvases.count(); ++i)
     {
         m_canvases[i] = P_NULL;
+    }
+}
+    
+void BPage::load()
+{
+    if (m_state == UNITIALIZED)
+    {
+        // Load HTML text.
+        PResourceManager *resourceManager = m_book->context()->module<PResourceManager>("resource-manager");
+        PArchiveFile *archive = resourceManager->archive();
+
+        PInputStream inputStream;
+        if (!archive->createInputStream(m_htmlFile, &inputStream))
+        {
+            PLOG_ERROR("Failed to read scene configuration file at %s.", m_htmlFile);
+            return ;
+        }
+
+        puint8 *htmlText;
+        inputStream.readAllBytesAsString(htmlText);
+        m_html = (pchar *)htmlText;
+    
+        // We deferred the asset loading to update() to reduce the execution time
+        // of this function as this function is in the webview thread and should 
+        // be light-weighted. 
+        // FIXME: m_state will be read in main thread while written in webview thread.
+        // Better to add lock for mutual exclusion.
+        m_state = ZOOMOUT;
+    }
+}
+
+void BPage::unload()
+{
+    if (m_state != UNITIALIZED)
+    {
+        m_state = UNITIALIZED;
+    
+        PDELETEARRAY(m_html);
+
+        // TODO: unload asset
     }
 }
 
@@ -356,4 +372,9 @@ BCanvas *BPage::locateCanvas(pint32 x, pint32 y)
     }
 
     return m_currentCanvas;
+}
+
+pbool BPage::isPointInside(pint32 x, pint32 y)
+{
+    return locateCanvas(x, y) != P_NULL;
 }

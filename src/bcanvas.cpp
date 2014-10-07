@@ -33,7 +33,7 @@ void BCanvas::update()
     if (m_autoRotating)
     {
  	    PVector3 r = m_root->transform().rotation();
-	    r[0] += m_context->clock().deltaTime() * xRotSpeed;
+	    //r[0] += m_context->clock().deltaTime() * xRotSpeed;
         r[1] += m_context->clock().deltaTime() * yRotSpeed;
 	    m_root->transform().setRotation(r);   
     }

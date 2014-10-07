@@ -11,7 +11,7 @@
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="BambooReaderPlugin">
-                <param name="ios-package" value="BambooPluginPlugin"/>
+                <param name="ios-package" value="BambooReaderPlugin"/>
             </feature>
         </config-file>
         <header-file src="src/ios/BambooReaderPlugin.h" />

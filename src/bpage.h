@@ -17,7 +17,7 @@ class BCanvas;
 
 class PRenderState;
 class PXmlElement;
-class PRenderPass;
+
 
 class P_DLLEXPORT BPage
 {
@@ -32,10 +32,13 @@ public:
     void setVisiblity(pbool flag);
     void setNumberOfCanvases(puint32 number);
 
-    const pchar *html();
+    P_INLINE const pchar *html() { return m_html; }
     P_INLINE puint32 pageNumber() const { return m_pageNumber; }
     P_INLINE puint32 numberOfCanvases() const { return m_canvases.count(); }
     P_INLINE BCanvas *canvas(puint32 index) const { return m_canvases[index]; }
+    
+    void load();
+    void unload();
     
     void onPanBegin(pint32 x, pint32 y);
     void onPan(pint32 x, pint32 y, pint32 dx, pint32 dy);
@@ -46,6 +49,8 @@ public:
     void onPinchEnd();
 
     void onLongPress(pint32 dx, pint32 dy);
+    
+    pbool isPointInside(pint32 x, pint32 y);
 
 private:
     void clear();
@@ -64,6 +69,8 @@ private:
         TRANSITION_SCALEDOWN,
 
         NUM_STATES,
+        
+        UNITIALIZED,
     };
 
     BBook              *m_book;
@@ -75,7 +82,7 @@ private:
     BCanvas            *m_currentCanvas; // The current interacting canvas
     puint32             m_state;
     puint32             m_originalViewport[4]; // The original viewport of current canvas
-    PRenderPass        *m_clearRenderPass;
+
 };
 
 

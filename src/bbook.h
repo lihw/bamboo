@@ -19,7 +19,7 @@ class BPage;
 class BContent;
 
 class PRenderState;
-
+class PRenderPass;
 
 class P_DLLEXPORT BBook : public PModule
 {
@@ -33,7 +33,7 @@ public:
     pbool load(const pchar *bookArchive);
 
     P_INLINE puint32 numberOfPages() const { return m_pages.count(); }
-    P_INLINE BPage *page(puint32 pageno) const { return m_pages[pageno]; }
+    P_INLINE BPage *page(puint32 pageNumber) const { return m_pages[pageNumber - 1]; }
     P_INLINE BContent *content() const { return m_content; }
     P_INLINE pchar *title() const { return m_title; }
     P_INLINE puint32 currentPageNumber() const { return m_currentPageNumber; }
@@ -48,7 +48,10 @@ public:
     P_INLINE PArcball *arcball() { return &m_arcball; }
     P_INLINE PInterpolatedValue *value() { return &m_value; }
 
+    // Turn to certain page.
     void openPage(puint32 pageNumber);
+    // Close the current page.
+    void closePage();
 
     virtual pbool initialize();
     virtual pbool resume();
@@ -66,6 +69,7 @@ private:
     pchar              *m_title;
     PArcball            m_arcball;
 	PInterpolatedValue  m_value;    // scaleup-down transition value.
+    PRenderPass        *m_clearRenderPass;
 };
 
 
