@@ -47,6 +47,9 @@ public:
     // It is true by default.
     void setScalingEnabled(pbool enabled);
     P_INLINE pbool isScalingEnabled() const { return m_scalingEnabled; }
+
+protected:
+    pbool unpack(const PXmlElement *xmlElement);
     
 
 private:

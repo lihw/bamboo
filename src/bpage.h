@@ -54,7 +54,6 @@ public:
 
 private:
     void clear();
-    pbool unpack(const PXmlElement *xmlElement);
     BCanvas *locateCanvas(pint32 x, pint32 y);
 
 private:

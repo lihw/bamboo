@@ -242,5 +242,3 @@ void BBook::clear()
     }
     PDELETEARRAY(m_title);
 }
-
-

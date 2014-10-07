@@ -11,6 +11,8 @@
 
 #include <PFoundation/pcontext.h>
 #include <PFoundation/pquaternion.h>
+#include <PFoundation/pxmlelement.h>
+#include <PFoundation/pconststring.h>
 
 
 P_OBJECT_DEFINE(BCanvas)
@@ -92,4 +94,63 @@ void BCanvas::rotate(pfloat32 dx, pfloat32 dy)
 void BCanvas::setScalingEnabled(pbool enabled)
 {
     m_scalingEnabled = enabled;
+}
+    
+pbool BCanvas::unpack(const PXmlElement *xmlElement)
+{
+    if (!PScene::unpack(xmlElement))
+    {
+        return false;
+    }
+
+    const pchar *scalingEnabledValue = xmlElement->attribute("scaling_enabled");
+    if (scalingEnabledValue != P_NULL && pstrcmp(scalingEnabledValue, "false") == 0)
+    {
+        m_scalingEnabled = false;
+    }
+    else 
+    {
+        m_scalingEnabled = true;
+    }
+    
+    const pchar *rotationEnabledValue = xmlElement->attribute("rotation_enabled");
+    if (rotationEnabledValue != P_NULL && pstrcmp(rotationEnabledValue, "false") == 0)
+    {
+        m_rotationEnabled = false;
+    }
+    else 
+    {
+        m_rotationEnabled = true;
+    }
+   
+    const pchar *firstPersonViewValue = xmlElement->attribute("first_person_view");
+    if (firstPersonViewValue != P_NULL && pstrcmp(firstPersonViewValue, "true") == 0)
+    {
+        m_firstPersonView = true;
+    }
+    else 
+    {
+        m_firstPersonView = false;
+    }
+    
+    const pchar *rotationSpeedValue = xmlElement->attribute("rotation_speed");
+    if (rotationSpeedValue != P_NULL) 
+    {
+        const pchar *p = rotationSpeedValue;
+        if ((p = pStringUnpackFloat(p, &m_rotationSpeed.m_v[0])) == P_NULL ||
+            (p = pStringUnpackFloat(p, &m_rotationSpeed.m_v[1])) == P_NULL ||
+            (p = pStringUnpackFloat(p, &m_rotationSpeed.m_v[2])) == P_NULL)
+        {
+            PLOG_ERROR("The canvas node doesn't have a valid rotation speed.");
+            return false;
+        }
+    }
+    else 
+    {
+        m_rotationSpeed.m_v[0] = 0;
+        m_rotationSpeed.m_v[1] = 0.0001f;
+        m_rotationSpeed.m_v[2] = 0;
+    }
+
+    return true;
 }
