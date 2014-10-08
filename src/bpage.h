@@ -42,7 +42,7 @@ public:
     
     void onPanBegin(pint32 x, pint32 y);
     void onPan(pint32 x, pint32 y, pint32 dx, pint32 dy);
-    void onPanEnd(pint32 x, pint32 y, pint32 dx, pint32 dy);
+    void onPanEnd();
    
     void onPinchBegin(const pint32 *pt1, const pint32 *pt2);
     void onPinch(const pint32 *pt1, const pint32 *pt2, pfloat32 angle, pfloat32 scaling);

@@ -54,21 +54,19 @@ void BContext::onDestroy()
 {
 }
 
-pbool BContext::onKeyboard(PEvent *event)
+void BContext::onKeyboard(puint32 state, puint32 key, puint32 scancode)
 {
-    pint32 key = event->parameter(P_EVENTPARAMETER__KEY_SCANCODE).toInt();
-    pint32 type = event->getType();
-    if (type == P_EVENT__KEYUP)
+    if ((state & P_KEY_DEVICE_STATE_UP))
     {
-        switch (key)
+        switch (scancode)
         {
             case P_KEY_ESC:
                 quit();
-                return true; 
+                break;
         }
     }
-    return true;
 }
+
 
 void BContext::onPinchBegin(const pint32 *point1, const pint32 *point2)
 {
@@ -123,12 +121,12 @@ void BContext::onPan(pint32 x, pint32 y, pint32 dx, pint32 dy)
     }
 }
 
-void BContext::onPanEnd(pint32 x, pint32 y, pint32 dx, pint32 dy)
+void BContext::onPanEnd()
 {
     BPage *page = m_book->currentPage();
     if (page != P_NULL)
     {
-        return page->onPanEnd(x, y, dx, dy);
+        return page->onPanEnd();
     }
 }
 

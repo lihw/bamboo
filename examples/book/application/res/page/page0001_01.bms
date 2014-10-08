@@ -1,4 +1,4 @@
-<scene name="page0001_01.bms" viewport="0,0,0.5,0.5" rotation_speed="0.0001,0,0" first_person_view="true" scaling_enabled="false" >
+<scene name="page0001_01.bms" viewport="0,0,0.5,0.5" rotation_enabled="false" rotation_speed="0.0001,0,0" first_person_view="true" scaling_enabled="false" >
   <root name="RootNode" transform="s: 1.00000, 1.00000, 1.00000,r: 0.00000,-0.00000, 0.00000,t: 0.00000, 0.00000, 0.00000" >
     <drawable name="brain" transform="s: 1.00000, 1.00000, 1.00000,r: 0.00000,-0.00000, 0.00000,t:-0.02035, 1.92622,0" >
       <geometry id="mesh/brain.pmh" />

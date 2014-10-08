@@ -283,7 +283,7 @@ void BPage::onPan(pint32 x, pint32 y, pint32 dx, pint32 dy)
     }
 }
 
-void BPage::onPanEnd(pint32 x, pint32 y, pint32 dx, pint32 dy)
+void BPage::onPanEnd()
 {
     if (m_visible && m_currentCanvas != P_NULL)
     {
