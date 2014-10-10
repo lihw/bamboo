@@ -27,4 +27,12 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
     top: 0px;
 }
 
+.book.textbox {
+    position: fixed;
+    margin: 0px;
+}
 
+.book.widget {
+    position: fixed;
+    margin: 0px;
+}

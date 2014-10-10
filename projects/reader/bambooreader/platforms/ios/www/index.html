@@ -27,8 +27,10 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <link rel="stylesheet" type="text/css" href="css/bambooreader.css" />
-        <link rel="stylesheet" type="text/css" href="css/transitions/scrolling.css" />
+        <link rel="stylesheet" type="text/css" href="css/bamboo_book.css" />
+        <link rel="stylesheet" type="text/css" href="css/bamboo_local.css" />
+        <link rel="stylesheet" type="text/css" href="css/bamboo_store.css" />
+        <link rel="stylesheet" type="text/css" href="css/bamboo_configuration.css" />
         <link rel="stylesheet" type="text/css" href="css/widgets/photogallery.css" />
         <title>Bamboo Reader</title>
     </head>
@@ -38,7 +40,7 @@
                  <!--
                  <img src="../../Documents/bg3_480x8002.png" />
                                   <img src="../../Documents/bg3_480x8001.png" />-->
-             <div id="loadcontent"></div>
+				  <!--<div id="loadcontent"></div>-->
              </div>
         </div>
         <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
@@ -46,33 +48,16 @@
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/lib/quoJs/package/quo.js"></script>
         <script type="text/javascript" src="js/lib/fastclick.js"></script>
+        <script type="text/javascript" src="js/bamboo_local.js"></script>
+        <script type="text/javascript" src="js/bamboo_book.js"></script>
+        <script type="text/javascript" src="js/bamboo_store.js"></script>
+        <script type="text/javascript" src="js/bamboo_configuration.js"></script>
         <script type="text/javascript" src="js/bambooreader.js"></script>
         <script type="text/javascript" src="js/widgets/photogallery.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            //app.initialize();
-             $('#loadcontent').load('home.html', function(){
-             var h = $('#wrapper').height();
-             var w = $('#wrapper').width();
-             
-             // Reset the style of navigation bar.
-             $('.home_navbar').height(32);
-             
-             var thumbnailSize = Math.floor(w * 0.2);
-             var margin = Math.floor((w - 4 * thumbnailSize) / 10);
-
-             $('.thumbnail_container').css('padding-left', margin);
-             $('.thumbnail_container').css('padding-right', margin);
-	     
-	     //$('.thumbnail').css('margin', thumbnailMargin);
-	     //$('.thumbnail').css('padding', 0);
-	     
-	     $('.thumbnail').css('margin', margin);
-	     $('.thumbnail').css('width', thumbnailSize);
-	     $('.thumbnail').css('height', thumbnailSize);
-		});
-
-             
+            app.initialize();
+             //$('#loadcontent').load('home.html', function(){
         </script>
     </body>
 </html>

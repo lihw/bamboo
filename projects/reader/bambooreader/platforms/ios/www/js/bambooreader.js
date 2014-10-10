@@ -1,5 +1,5 @@
 /**
- * bambooreader.js - The book organizer
+ * bambooreader.js - The book reader javascript
  *
  * @category  Mobile-Hybrid
  * @package   bamboo
@@ -13,23 +13,112 @@
  */
 
 var BambooReader = {
-    // The book name
-    _bookTitle : "book",
-    // The book info
+
+    // The information of curently opened book.
     _bookInformation : null,
-    _bookPath : null,
     // The current page number. The page number starts from 0 to _totalPageNumber - 1.
     _currentPageNumber : 0,
     // The current page object
     _currentPage : null,
+    // In which frame we are now, the local home, the store, the configuration or in the book.
+    _whereabout: null,
+    // Whether to turn on debug log.
     _debug : false,
+    
     //
-    // Opertions.
+    // Operations.
     //
     initialize: function() {
         // Bind the swiping gesture.
-        $$('#wrapper').swipeLeft(function(){BambooReader.pageDown();});
-        $$('#wrapper').swipeRight(function(){BambooReader.pageUp();});
+        $$('#wrapper').swipeLeft(BambooReader.pageDown);
+        $$('#wrapper').swipeRight(BambooReader.pageUp);
+
+        // status
+        BambooLocal.initialize();
+
+        BambooReader._whereabout = "local";
+    },
+    
+    pageDown: function() {
+        if (BambooReader._whereabout == "local") {
+            BambooLocal.pageDown();
+        } else if (BambooReader._whereabout == "store") {
+        } else if (BambooReader._whereabout == "configuration") {
+        } else if (BambooReader._whereabout == "book") {
+            BambooBook.pageDown();
+        } else {
+            BambooReader.error("Unknown place!" + BambooReader._whereabout);
+        }
+    },
+
+    /*
+    pageDown: function() {
+            // We are at the last page of the book, no way to page down.
+            if (BambooReader._currentPageNumber >= BambooReader._bookInformation.page_number) {
+                return ;
+            }
+
+            BambooReader._currentPageNumber++;
+
+            BambooReader._currentPage = $('#wrapper').find('.page.center');
+            
+            // Next page.
+            var nextPage = BambooReader._currentPage.next().first();
+
+            BambooReader.closePage().then(function() {
+                BambooReader.animatePage(nextPage, "right");
+
+                // Check if the we are now reach the last visible page. If so
+                // Load a few pages up.
+                nextPage = BambooReader._currentPage.next().first();
+                if (nextPage.length == 0) {
+                    // It is last visible page and we need to load 3 more new pages.
+                    var nextPageNumber = BambooReader._currentPageNumber + 1;
+
+                    BambooReader.loadPage(nextPageNumber).then(function(htmlText) {
+                        var pageNumberAttr = nextPageNumber;
+                        var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
+                        BambooReader._currentPage.parent().append(nextPageHtml);
+                        BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
+                        
+                        BambooReader.debug("after added, structure:" + $('#wrapper').html());
+
+                        return BambooReader.loadPage(nextPageNumber + 1);
+                    }).then(function(htmlText) {
+                        var pageNumberAttr = nextPageNumber + 1;
+                        var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
+                        BambooReader._currentPage.parent().append(nextPageHtml);
+                        BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
+                        
+                        BambooReader.debug("after added, structure:" + $('#wrapper').html());
+
+                        return BambooReader.loadPage(nextPageNumber + 2)
+                    }).then(function(htmlText) {
+                        var pageNumberAttr = nextPageNumber + 2;
+                        var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
+                        BambooReader._currentPage.parent().append(nextPageHtml);
+                        BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
+                            
+                        BambooReader.debug("after added, structure:" + $('#wrapper').html());
+                    }).always (function() {
+                        // Discard 3 heading pages.
+                        var wrapper = BambooReader._currentPage.parent();
+                        // The page number of the first visible page
+                        var firstPageNumber = wrapper.children().first().attr('page'); 
+                        for (var i = firstPageNumber; i < BambooReader._currentPageNumber - 1; ++i) {
+                            BambooReader.debug("page delete " + i);
+                            wrapper.children().first().remove();
+                            BambooReader.unloadPage(i);
+                        }
+                        
+                        BambooReader.debug("after deleted, structure:" + $('#wrapper').html());
+                    });
+                }
+            });
+    },
+    */
+
+
         
         // Initialize the file system
         //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
@@ -38,7 +127,7 @@ var BambooReader = {
         //} else {
         //    bamboo.error("Failed to load file system. Quitting.");
         //}
-    
+    initializeBook : function() {
         // Load the first few pages.
         var bookTitle = "book";
         this.openBook(bookTitle).then(function(bookInformation) {
@@ -108,73 +197,72 @@ var BambooReader = {
         BambooReader._currentPage.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
             function() { BambooReader.onPageAnimationEnd(direction); });
     },
+    /*
     pageDown: function() {
-        // We are at the last page of the book, no way to page down.
-        if (BambooReader._currentPageNumber >= BambooReader._bookInformation.page_number) {
-            return ;
-        }
-
-        BambooReader._currentPageNumber++;
-
-        BambooReader._currentPage = $('#wrapper').find('.page.center');
-        //if (BambooReader._currentPageNumber == 4) {
-        //    console.log("page 4:" + $('#wrapper').html());
-        //}
-        
-        // Next page.
-        var nextPage = BambooReader._currentPage.next().first();
-
-        BambooReader.closePage().then(function() {
-            BambooReader.animatePage(nextPage, "right");
-
-            // Check if the we are now reach the last visible page. If so
-            // Load a few pages up.
-            nextPage = BambooReader._currentPage.next().first();
-            if (nextPage.length == 0) {
-                // It is last visible page and we need to load 3 more new pages.
-                var nextPageNumber = BambooReader._currentPageNumber + 1;
-
-                BambooReader.loadPage(nextPageNumber).then(function(htmlText) {
-                    var pageNumberAttr = nextPageNumber;
-                    var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
-                    BambooReader._currentPage.parent().append(nextPageHtml);
-                    BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
-                    
-                    BambooReader.debug("after added, structure:" + $('#wrapper').html());
-
-                    return BambooReader.loadPage(nextPageNumber + 1);
-                }).then(function(htmlText) {
-                    var pageNumberAttr = nextPageNumber + 1;
-                    var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
-                    BambooReader._currentPage.parent().append(nextPageHtml);
-                    BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
-                    
-                    BambooReader.debug("after added, structure:" + $('#wrapper').html());
-
-                    return BambooReader.loadPage(nextPageNumber + 2)
-                }).then(function(htmlText) {
-                    var pageNumberAttr = nextPageNumber + 2;
-                    var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
-                    BambooReader._currentPage.parent().append(nextPageHtml);
-                    BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
-                        
-                    BambooReader.debug("after added, structure:" + $('#wrapper').html());
-                }).always (function() {
-                    // Discard 3 heading pages.
-                    var wrapper = BambooReader._currentPage.parent();
-                    // The page number of the first visible page
-                    var firstPageNumber = wrapper.children().first().attr('page'); 
-                    for (var i = firstPageNumber; i < BambooReader._currentPageNumber - 1; ++i) {
-                        BambooReader.debug("page delete " + i);
-                        wrapper.children().first().remove();
-                        BambooReader.unloadPage(i);
-                    }
-                    
-                    BambooReader.debug("after deleted, structure:" + $('#wrapper').html());
-                });
+            // We are at the last page of the book, no way to page down.
+            if (BambooReader._currentPageNumber >= BambooReader._bookInformation.page_number) {
+                return ;
             }
-        });
+
+            BambooReader._currentPageNumber++;
+
+            BambooReader._currentPage = $('#wrapper').find('.page.center');
+            
+            // Next page.
+            var nextPage = BambooReader._currentPage.next().first();
+
+            BambooReader.closePage().then(function() {
+                BambooReader.animatePage(nextPage, "right");
+
+                // Check if the we are now reach the last visible page. If so
+                // Load a few pages up.
+                nextPage = BambooReader._currentPage.next().first();
+                if (nextPage.length == 0) {
+                    // It is last visible page and we need to load 3 more new pages.
+                    var nextPageNumber = BambooReader._currentPageNumber + 1;
+
+                    BambooReader.loadPage(nextPageNumber).then(function(htmlText) {
+                        var pageNumberAttr = nextPageNumber;
+                        var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
+                        BambooReader._currentPage.parent().append(nextPageHtml);
+                        BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
+                        
+                        BambooReader.debug("after added, structure:" + $('#wrapper').html());
+
+                        return BambooReader.loadPage(nextPageNumber + 1);
+                    }).then(function(htmlText) {
+                        var pageNumberAttr = nextPageNumber + 1;
+                        var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
+                        BambooReader._currentPage.parent().append(nextPageHtml);
+                        BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
+                        
+                        BambooReader.debug("after added, structure:" + $('#wrapper').html());
+
+                        return BambooReader.loadPage(nextPageNumber + 2)
+                    }).then(function(htmlText) {
+                        var pageNumberAttr = nextPageNumber + 2;
+                        var nextPageHtml = '<div page="' + pageNumberAttr + '" class="page right">'+htmlText+'</div>';
+                        BambooReader._currentPage.parent().append(nextPageHtml);
+                        BambooReader.replaceAssetURLs(BambooReader._currentPage.parent().children().last());
+                            
+                        BambooReader.debug("after added, structure:" + $('#wrapper').html());
+                    }).always (function() {
+                        // Discard 3 heading pages.
+                        var wrapper = BambooReader._currentPage.parent();
+                        // The page number of the first visible page
+                        var firstPageNumber = wrapper.children().first().attr('page'); 
+                        for (var i = firstPageNumber; i < BambooReader._currentPageNumber - 1; ++i) {
+                            BambooReader.debug("page delete " + i);
+                            wrapper.children().first().remove();
+                            BambooReader.unloadPage(i);
+                        }
+                        
+                        BambooReader.debug("after deleted, structure:" + $('#wrapper').html());
+                    });
+                }
+            });
     },
+    */
     pageUp: function() {
         // We are at the last page of the book, no way to page down.
         if (BambooReader._currentPageNumber <= 1) {
@@ -252,7 +340,6 @@ var BambooReader = {
     openBookSucceed: function(bookInfo) {
             },
     closeBookSucceed: function() {
-        bamboo._bookTitle = null;
         bamboo._bookInfo = null;
     },
     onPageAnimationEnd: function(direction) {
@@ -264,21 +351,16 @@ var BambooReader = {
             
     },
 
-    //
-    // Interface to the BambooReader cordova plugin
-    //
     openBook: function(bookTitle) {
         var deferred = new $.Deferred();
 
-        BambooReader._bookTitle = bookTitle;
-        
         cordova.exec(function(bookInformationText) {
                         deferred.resolve(bookInformationText);
                      },
                     function() {
-                        BambooReader.error("(openBook): could not open book " + BambooReader._bookTitle);
+                        BambooReader.error("(openBook): could not open book " + bookTitle);
                     },
-                    "BambooReaderPlugin", "openBook", [BambooReader._bookTitle]);
+                    "BambooReaderPlugin", "openBook", [bookTitle]);
         
         //setTimeout(function(){
         //    deferred.resolve();
@@ -289,7 +371,7 @@ var BambooReader = {
     closeBook: function() {
         cordova.exec(bamboo.closeBookSucceed,
                      function() {
-                       alert("Failed to close book " + bamboo._bookTitle);
+                       alert("Failed to close book " + bookTitle);
                      },
                      "BambooReaderPlugin", "closeBook", []);
     },
