@@ -35,8 +35,8 @@ pbool BContext::onInitialized()
         return false;
     }
 
-    m_book->openPage(1);
-    m_book->currentPage()->load();
+    //m_book->openPage(1);
+    //m_book->currentPage()->load();
     
     gestureManager()->setGestureEnabled(P_GESTURE_TYPE_PAN, true);
     gestureManager()->setGestureEnabled(P_GESTURE_TYPE_PINCH, true);

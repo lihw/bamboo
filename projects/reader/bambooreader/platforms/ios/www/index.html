@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/bambooreader.css" />
+        <link rel="stylesheet" type="text/css" href="css/transitions/scrolling.css" />
+        <link rel="stylesheet" type="text/css" href="css/widgets/photogallery.css" />
+        <title>Bamboo Reader</title>
+    </head>
+    <body>
+        <div id="deviceready"> 
+             <div id="wrapper" class="book">
+                 <!--
+                 <img src="../../Documents/bg3_480x8002.png" />
+                                  <img src="../../Documents/bg3_480x8001.png" />-->
+             <!--<div id="loadcontent"></div>-->
+             </div>
+        </div>
+        <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="js/lib/jquery.easing.1.3.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/lib/quoJs/package/quo.js"></script>
+        <script type="text/javascript" src="js/lib/fastclick.js"></script>
+        <script type="text/javascript" src="js/bambooreader.js"></script>
+        <script type="text/javascript" src="js/widgets/photogallery.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            //var node = $('#wrapper');
+            //node.find('img').each(function() {
+            //                      $(this).attr('src', 'opq' + $(this).attr('src'));
+            //                      });
+            //console.log(node.html());
+            /*
+            var json = ' \
+            { \
+                "title": "star", \
+                "page_number": 5, \
+                "author": "creative pioneer", \
+                "affiliation": "creative pioneer", \
+                "created_date": "2014/10/09", \
+                "price": 0, \
+                "cover_image": "cover.jpg", \
+                "content":[ \
+                           {"text": "chapter 1", "page":1}, \
+                           {"text": "chapter 2", "page": \
+                           [ {"text": "chapter 2.1", "page": 2}, \
+                            {"text": "chapter 2.2", "page": 3} \
+                            ]}, \
+                           {"text": "chapter 3","page": 4}, \
+                           {"text": "chapter 4", "page": 5} \
+                           ] \
+            }';
+            */
+            //obj = JSON && JSON.parse(json) || $.parseJSON(json);
+            //alert(obj.count);
+
+            app.initialize();
+             //$('#loadcontent').load('page5.html');
+        </script>
+    </body>
+</html>
