@@ -38,7 +38,7 @@
                  <!--
                  <img src="../../Documents/bg3_480x8002.png" />
                                   <img src="../../Documents/bg3_480x8001.png" />-->
-             <!--<div id="loadcontent"></div>-->
+             <div id="loadcontent"></div>
              </div>
         </div>
         <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
@@ -50,37 +50,29 @@
         <script type="text/javascript" src="js/widgets/photogallery.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            //var node = $('#wrapper');
-            //node.find('img').each(function() {
-            //                      $(this).attr('src', 'opq' + $(this).attr('src'));
-            //                      });
-            //console.log(node.html());
-            /*
-            var json = ' \
-            { \
-                "title": "star", \
-                "page_number": 5, \
-                "author": "creative pioneer", \
-                "affiliation": "creative pioneer", \
-                "created_date": "2014/10/09", \
-                "price": 0, \
-                "cover_image": "cover.jpg", \
-                "content":[ \
-                           {"text": "chapter 1", "page":1}, \
-                           {"text": "chapter 2", "page": \
-                           [ {"text": "chapter 2.1", "page": 2}, \
-                            {"text": "chapter 2.2", "page": 3} \
-                            ]}, \
-                           {"text": "chapter 3","page": 4}, \
-                           {"text": "chapter 4", "page": 5} \
-                           ] \
-            }';
-            */
-            //obj = JSON && JSON.parse(json) || $.parseJSON(json);
-            //alert(obj.count);
+            //app.initialize();
+             $('#loadcontent').load('home.html', function(){
+             var h = $('#wrapper').height();
+             var w = $('#wrapper').width();
+             
+             // Reset the style of navigation bar.
+             $('.home_navbar').height(32);
+             
+             var thumbnailSize = Math.floor(w * 0.2);
+             var margin = Math.floor((w - 4 * thumbnailSize) / 10);
 
-            app.initialize();
-             //$('#loadcontent').load('page5.html');
+             $('.thumbnail_container').css('padding-left', margin);
+             $('.thumbnail_container').css('padding-right', margin);
+	     
+	     //$('.thumbnail').css('margin', thumbnailMargin);
+	     //$('.thumbnail').css('padding', 0);
+	     
+	     $('.thumbnail').css('margin', margin);
+	     $('.thumbnail').css('width', thumbnailSize);
+	     $('.thumbnail').css('height', thumbnailSize);
+		});
+
+             
         </script>
     </body>
 </html>
