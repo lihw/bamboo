@@ -30,7 +30,7 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family:STHeiti; font-size:18px; color:black; font-weight:bold; line-height:1.5
+  font-family:STHeiti; font-size:18px; color:black; font-weight:bold; line-height:1.5;
 }
 
 .local.footer {
@@ -39,7 +39,7 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
   width: 100%
   height: 80px;
   text-align: center;
-  font-family:STHeiti; font-size:18px; color:black; font-weight:bold; line-height:1.5
+  font-family:STHeiti; font-size:18px; color:black; font-weight:bold; line-height:1.5;
 }
 
 .local.container { 
@@ -51,28 +51,7 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
    height: 100%; 
    background-color: white;
    margin: 0;
-   -webkit-transform: translate3d(0, 0, 0); 
-   transform: translate3d(0, 0, 0); 
-}
-
-.local.container.left { 
-   -webkit-transform: translate3d(-100%, 0, 0); 
-   transform: translate3d(-100%, 0, 0); 
-}
-
-.local.container.center { 
-   -webkit-transform: translate3d(0, 0, 0); 
-   transform: translate3d(0, 0, 0); 
-}
-
-.local.container.right { 
-   -webkit-transform: translate3d(100%, 0, 0); 
-   transform: translate3d(100%, 0, 0); 
-}
-
-.local.container.transition { 
-   -webkit-transition-duration: .25s; 
-   transition-duration: .25s; 
+   overflow: scroll;
 }
 
 .local.thumbnail {
@@ -80,7 +59,6 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
     width: 0;
     margin: 0;
     padding: 0;
-    border-style: solid;
 }
 
 .local.thumbnail img {
@@ -89,5 +67,21 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
     height: auto;
     padding: 0;
     margin: auto;
+}
+
+.local.messagebox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background:white;
+    border: 1px solid #cccccc;
+    z-index: 10;
+    width: 200px;
+}
+
+.local.messagebox ul li {
+    list-style: none;
+    text-align: left;
+    font-family:STHeiti; font-size:18px; color:black; font-weight:bold; line-height:1.5
 }
 
