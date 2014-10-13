@@ -1,5 +1,5 @@
 /**
- * bamboo_home.js - The script for the home page of the bambooreader.
+ * bamboobook.js - The script for the book reader
  *
  * @category  Mobile-Hybrid
  * @package   bamboo
@@ -12,200 +12,57 @@
  *
  */
 
-var BambooHome = {
+
+var BambooBook = {
     // -------------------------------------------------------------- 
     // Variables
     // -------------------------------------------------------------- 
-    // The information of books.
-    _books : null,
-    // The system path of book storage.
-    _booksPath : null,
-    // The current page number in the home page.
-    _currentPageNumber: 1,
-    // The number of pages in the home page.
-    _numPages : 0,
-    // The current page object.
-    _currentPage : null,
     
     // -------------------------------------------------------------- 
     // Operations
     // -------------------------------------------------------------- 
     // Initialize the reader
-    initialize: function() {
-	// We are at home.
-	$(this)._bookInformation = null;
-	$(this)._books = null;
-
-	// Set up the page layout of the home.
-	var wrapper = $('#wrapper');
-	
-	var h = wrapper.height();
-	var w = wrapper.width();
-
-	wrapper.append('<div class="local_navbar"> \
-		        <ul> \
-		        <li class="current"><div>本地</div></li> \
-		        <li><div>设置</div></li> \
-		        <li><div>商店</div></li> \
-		        </ul> \
-		        </div>]'); 
-
-	// Reset the style of navigation bar.
-	$('.local_navbar').height(32);
-
-	var thumbnailSize = Math.floor(w * 0.2);
-	var margin = Math.floor((w - 4 * thumbnailSize) / 10);
-
-
-	this.browseBooks().then(function(books) {
-            BambooLocal._books = JSON && JSON.parse(books) || $.parseJSON(books);
-	    var numBooks = BambooLocal._books.length;
-	
-	    var wrapper = $('#wrapper');
-	    
-	    var numPages = Math.floor(numBooks / 8);
-	    for (var i = 0; i < numPages; i++) {
-	    	wrapper.append('<div class="local_container ' + (i == 0? 'center':'right') + '">\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 0].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 1].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 2].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 3].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 4].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 5].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 6].cover +'"></div>\n' +
-		   '<div class="local_thumbnail"><img src="'+ BambooLocal._books[i * 8 + 7].cover +'"></div>\n' +
-		'</div>\n');
-	    }
-
-	    var restNumPages = numBooks - numPages * 8;
-	    if (restNumPages > 0) {
-	    	var htmlText = '<div class="local_container right">';
-	    	for (var i = 0; i < restNumPages; i++) {
-		    var j = numPages * 8 + i;
-		    htmlText += '<div class="local_thumbnail"><img src="'+ BambooLocal._books[j].cover +'"></div>';
-		}
-		htmlText += '</div>';
-	    	wrapper.append(htmlText);
-	    }
-
-	    $('.local_container').css({
-	    	'padding-left': margin,
-	    	'padding-right': margin
-	    });
-
-	    $('.local_thumbnail').css({
-	    	'margin': margin,
-	    	'width': thumbnailSize,
-	    	'height': thumbnailSize,
-	    	'line-height': thumbnailSize
-	    });
-	    
-	    $('.local_thumbnail img').css({
-		        'max-width': thumbnailSize,
-		        'max-height': thumbnailSize,
-	    });
-
-	    BambooLocal._numPages = numPages + 1;
-
-	}).always(function() {
-	    
-            $('#wrapper').append('<div class="local_footer"><p>��1ҳ/��'+BambooLocal._numPages+'ҳ</p></div>');
-	
-	    BambooLocal.debug($('#wrapper').html());
-	});
+    initialize: function(bookTitle) {
     },
+    // Uninitialize the reader and return to home.
     uninitialize: function() {
-	$('#wrapper').empty();
     },
-    
+    // Next page
     pageDown: function() {
-    	// We are at the last page of the book, no way to page down.
-    	if (BambooLocal._currentPageNumber >= BambooLocal._numPages) {
-    	    return ;
-    	}
-
-    	BambooLocal._currentPageNumber++;
-
-    	BambooLocal._currentPage = $('#wrapper').find('.local_container.center');
-    	
-    	// Next page.
-    	var nextPage = BambooLocal._currentPage.next().first();
-    	nextPage.attr('class', "page current right" );
-    	nextPage.attr('class', "page current transition center");
-    	BambooLocal._currentPage.attr('class', "page transition left");
-        
-        BambooLocal._currentPage.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
-        
-        BambooLocal._currentPage = nextPage;
-        BambooLocal._currentPageNumber = parseInt($(this._currentPage).attr('page'));
-        
-        BambooLocal._currentPage.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
-            function() { BambooLocal.onPageAnimationEnd(direction); });
+    },
+    // Previous page
+    pageUp: function() {
+    },
+    // Go to certain page
+    gotoPage: function(pageNumber) {
     },
 
-    pageDown: function() {
-    	// We are at the last page of the book, no way to page down.
-    	if (BambooLocal._currentPageNumber <= 1) {
-    	    return ;
-    	}
 
-    	BambooLocal._currentPageNumber--;
-
-    	BambooLocal._currentPage = $('#wrapper').find('.local_container.center');
-    	
-    	// Next page.
-    	var nextPage = BambooLocal._currentPage.next().first();
-    	nextPage.attr('class', "page current left" );
-    	nextPage.attr('class', "page current transition center");
-    	BambooLocal._currentPage.attr('class', "page transition right");
-	
-        BambooLocal._currentPage.unbind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd");
-        
-        BambooLocal._currentPage = nextPage;
-        BambooLocal._currentPageNumber = parseInt($(this._currentPage).attr('page'));
-        
-        BambooLocal._currentPage.bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
-            function() { BambooLocal.onPageAnimationEnd(direction); });
+    // -------------------------------------------------------------- 
+    // Interface to Cordova
+    // -------------------------------------------------------------- 
+    // Open a book.
+    openBook: function(bookTitle) {
     },
-    
-    // -------------------------------------------------------------- 
-    // Interface to the BambooLocal cordova plugin
-    // -------------------------------------------------------------- 
-    browseBooks : function() {
-        var deferred = new $.Deferred();
-
-        //cordova.exec(function(bookInformationText) {
-        //                deferred.resolve(bookInformationText);
-        //             },
-        //            function() {
-        //                BambooLocal.error("(openBook): could not open book " + BambooLocal._bookTitle);
-        //            },
-        //            "BambooLocalPlugin", "openBook", [BambooLocal._bookTitle]);
-        
-        setTimeout(function(){
-	
-	    var retText = '[{"cover":"a.jpg"},\
-	                    {"cover":"b.jpg"},\
-	                    {"cover":"a.jpg"},\
-	                    {"cover":"b.jpg"},\
-	                    {"cover":"a.jpg"},\
-	                    {"cover":"b.jpg"},\
-	                    {"cover":"a.jpg"},\
-	                    {"cover":"b.jpg"},\
-	                    {"cover":"a.jpg"},\
-	                    {"cover":"b.jpg"},\
-	                    {"cover":"a.jpg"}\
-	                   ]'; 
-
-            deferred.resolve(retText);
-        }, 10);
-        
-        return deferred.promise();
+    // Close a book
+    closeBook: function() {
     },
-    
-    // -------------------------------------------------------------- 
-    // Events
-    // -------------------------------------------------------------- 
-    onPageAnimationEnd: function() {
+    // Load book assets and html text
+    loadPage: function(pageNumber) {
     },
+    // Discard html text and tell native engine to unload assets of this page.
+    unloadPage: function(pageNumber) {
+    },
+    // Tell native engine to display the 3D content of this page
+    openPage: function(pageNumber) {
+    },
+    // Tell native engine to hide the 3D content of this page.
+    closePage: function(pageNumber) {
+    },
+
+    // -------------------------------------------------------------- 
+    // Event callbacks
+    // -------------------------------------------------------------- 
+    onTransitionAnimationEnd: function(direction) {
+    }
 };

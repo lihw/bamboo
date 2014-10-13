@@ -34,14 +34,14 @@ var BambooReader = {
         $$('#wrapper').swipeRight(BambooReader.pageUp);
 
         // status
-        BambooLocal.initialize();
+        BambooHome.initialize();
 
-        BambooReader._whereabout = "local";
+        BambooHome._whereabout = "local";
     },
     
     pageDown: function() {
         if (BambooReader._whereabout == "local") {
-            BambooLocal.pageDown();
+            BambooHome.pageDown();
         } else if (BambooReader._whereabout == "store") {
         } else if (BambooReader._whereabout == "configuration") {
         } else if (BambooReader._whereabout == "book") {
