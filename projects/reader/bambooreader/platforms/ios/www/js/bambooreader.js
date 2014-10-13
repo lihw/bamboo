@@ -25,6 +25,14 @@ var BambooReader = {
     // Whether to turn on debug log.
     _debug : false,
     
+    // Initialize the file system
+        //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+        //if (window.File && window.FileReader && window.FileList && window.Blob) {
+        //    window.requestFileSystem(window.PERSISTENT, bamboo._fileSystemQuota, bamboo.onFileSystemInitialized, bamboo.onFileSystemError);
+        //} else {
+        //    bamboo.error("Failed to load file system. Quitting.");
+        //}
+    
     //
     // Operations.
     //
@@ -120,55 +128,6 @@ var BambooReader = {
 
 
         
-        // Initialize the file system
-        //window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
-        //if (window.File && window.FileReader && window.FileList && window.Blob) {
-        //    window.requestFileSystem(window.PERSISTENT, bamboo._fileSystemQuota, bamboo.onFileSystemInitialized, bamboo.onFileSystemError);
-        //} else {
-        //    bamboo.error("Failed to load file system. Quitting.");
-        //}
-    initializeBook : function() {
-        // Load the first few pages.
-        var bookTitle = "book";
-        this.openBook(bookTitle).then(function(bookInformation) {
-            // Parse the content
-            BambooReader._bookInformation = JSON && JSON.parse(bookInformation[1]) || $.parseJSON(bookInformation[1]);
-                                      
-            BambooReader.info("book " + BambooReader._bookInformation.title + " has " + BambooReader._bookInformation.page_number + " pages");
-                                      
-            BambooReader._bookPath = "file://" + bookInformation[0] + "/";
-                                      
-            // Load the first 3 pages.
-            BambooReader.loadPage(1).then(function(htmlText) {
-                $('#wrapper').append('<div page="1" class="page center left">'+htmlText+'</div>');
-                BambooReader.replaceAssetURLs($('#wrapper').children().last());
-                                          
-                BambooReader.debug("after added, structure:" + $('#wrapper').html());
-                                          
-                return BambooReader.loadPage(2);
-            }).then(function(htmlText) {
-                $('#wrapper').append('<div page="2" class="page right">'+htmlText+'</div>');
-                BambooReader.replaceAssetURLs($('#wrapper').children().last());
-
-                return BambooReader.loadPage(3);
-            }).done(function(htmlText) {
-                $('#wrapper').append('<div page="3" class="page right">'+htmlText+'</div>');
-                BambooReader.replaceAssetURLs($('#wrapper').children().last());
-
-                BambooReader.debug("after added, structure:" + $('#wrapper').html());
-            });
-            
-            BambooReader._currentPageNumber = 1;
-            BambooReader.openPage(1);
-                    
-            //BambooReader.debug("after added, structure:" + $('#wrapper').html());
-        }, function(error) {
-            console.log('could not open book.' + bookTitle);
-            BambooReader._currentPageNumber = 1;
-        });
-
-        BambooReader.info("BambooReader initialized.");
-    },
     animatePage: function(nextPage, direction) {
         // Modify the CSS attributes of current page and next page.
         if (direction == "right") {
