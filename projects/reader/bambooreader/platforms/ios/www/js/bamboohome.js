@@ -31,7 +31,6 @@ var BambooHome= {
     // Initialize the reader
     initialize: function() {
         // We are at home.
-        $(this)._bookInformation = null;
         $(this)._books = null;
 
         this.browseBooks().then(function(books) {
@@ -43,11 +42,11 @@ var BambooHome= {
             wrapper.append('<div id="tabs">\n '+
                            '	<ul>\n '+
                            '		<li><a href="#local">本地</a></li> \n '+
-                           '		<li><a href="#configuration">设置</a></li> \n '+
+                           '		<li><a href="#conf">设置</a></li> \n '+
                            '		<li><a href="#store">商店</a></li> \n '+
                            '	</ul> \n '+
                            '	<div id="local"></div> \n '+
-                           '	<div id="configuration">Under construction.</div> \n '+
+                           '	<div id="conf">Under construction.</div> \n '+
                            '	<div id="store">Under construction.</div> \n '+
                            '</div>');
 
@@ -85,21 +84,6 @@ var BambooHome= {
                                '</div>');
             
 
-            //$('#local').css({
-            //    'background-color': "white",
-            //});
-
-            //$('.local.thumbnail').css({
-            //    'margin': margin,
-            //    'width': thumbnailSize,
-            //    'height': thumbnailSize,
-            //    'line-height': thumbnailSize
-            //});
-            //
-            //$('.local.thumbnail img').css({
-            //        'max-width': thumbnailSize,
-            //        'max-height': thumbnailSize,
-            //});
             $('#bookinfo').dialog({
                 autoOpen: false,
                 draggable: false,
@@ -107,11 +91,27 @@ var BambooHome= {
                 width: 400,
             });
 
+            // FIXME: quoJS's longpress (hold) is buggy. It doesn't always
+            // provide a valid target value or current position. Should consider
+            // another gesture library.
             $$('#local').singleTap(function(e) { 
                 if ($('#bookinfo').dialog("isOpen")) {
                     $('#bookinfo').dialog("close");
+                } 
+            });
+            $$('#bookcover img').singleTap(function(e) { 
+                if ($('#bookinfo').dialog("isOpen")) {
+                    $('#bookinfo').dialog("close");
                 } else {
-                    alert('open a book');
+                    BambooHome._currentBookIndex = $(e.currentTarget).parent().attr('index');
+                    var book = BambooHome._books[BambooHome._currentBookIndex];
+                    if (book) {
+                        BambooHome.uninitialize();
+                        BambooReader._whereabout = "book";
+
+                        // TODO: an animation to open the book.
+                        BambooBook.initialize(book.title);
+                    }
                 }
             });
             $$('#bookcover img').hold(function(e) { 
@@ -124,7 +124,7 @@ var BambooHome= {
                     $('#localbooktitle').html("书名: "+book.title);
                     $('#localbookauthor').html("作者: "+book.author);
                     $('#localbookdate').html("出版日期:"+book.date);
-                    $('#localbookprice').html("定价:"+book.price);
+                    $('#localbookprice').html("定价:"+(parseInt(book.price) == 0? "免费" : book.price+"元"));
                     $('#localbookdesc').html("简介:<br>"+book.desc);
 
                     $('#bookinfo').dialog("option", "position",  
@@ -168,6 +168,7 @@ var BambooHome= {
     browseBooks : function() {
         var deferred = new $.Deferred();
 
+        if (BambooReader._debugFrontEnd) {
         //cordova.exec(function(bookInformationText) {
         //                deferred.resolve(bookInformationText);
         //             },
@@ -176,23 +177,27 @@ var BambooHome= {
         //            },
         //            "BambooHomePlugin", "openBook", [BambooHome._bookTitle]);
         
-        setTimeout(function(){
-    
-        var retText = '[{"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"},\
-                        {"title":"untitled", "author": "anonymous", "cover":"a.jpg"}\
-                       ]'; 
+            setTimeout(function(){
+                var retText = '[{"title":"星际探索", \
+                    "author": "未知", \
+                    "affliation":"未知",\
+                    "date":"2014-10-14",\
+                    "price":0,\
+                    "cover":"star.jpg",\
+                    "desc":"介绍了从地球到火星的探险故事"},\
+                {"title":"上古青铜器", \
+                    "author": "未知", \
+                    "affliation":"未知",\
+                    "date":"2014-10-14",\
+                    "price":0,\
+                    "cover":"antique.jpg",\
+                    "desc":"介绍了中国古代青铜器"}\
+                    ]'; 
 
             deferred.resolve(retText);
-        }, 10);
+            }, 10);
+        } else {
+        }
         
         return deferred.promise();
     },
@@ -200,6 +205,4 @@ var BambooHome= {
     // -------------------------------------------------------------- 
     // Events
     // -------------------------------------------------------------- 
-    onPageAnimationEnd: function() {
-    },
 };

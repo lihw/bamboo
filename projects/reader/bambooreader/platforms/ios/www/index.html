@@ -26,12 +26,11 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <link rel="stylesheet" type="text/css" href="css/bamboohome.css" />
-        <link rel="stylesheet" type="text/css" href="css/bamboo_store.css" />
-        <link rel="stylesheet" type="text/css" href="css/bamboo_configuration.css" />
+        <link rel="stylesheet" type="text/css" href="css/bamboobook.css" />
         <link rel="stylesheet" type="text/css" href="css/widgets/photogallery.css" />
         <title>Bamboo Reader</title>
     </head>
@@ -41,7 +40,7 @@
                  <!--
                  <img src="../../Documents/bg3_480x8002.png" />
                                   <img src="../../Documents/bg3_480x8001.png" />-->
-				  <!--<div id="loadcontent"></div>-->
+				  <div id="loadcontent"></div>
              </div>
         </div>
 	<!-- Libraries -->
@@ -61,8 +60,10 @@
         <script type="text/javascript" src="js/widgets/photogallery.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
-            app.initialize();
-             //$('#loadcontent').load('home.html', function(){
+	    $('#deviceready').width($(window).width());
+	    $('#deviceready').height($(window).height());
+            //app.initialize();ff9600
+             $('#loadcontent').load('bookpage.html');
         </script>
     </body>
 </html>

@@ -36,3 +36,24 @@ Copyright Future Interface 2012 -2014. All Rights Rerserved.
     position: fixed;
     margin: 0px;
 }
+
+.page { position: absolute; top: 30px; left: 0; bottom: 0px; width: 100%; height: 100%; -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+.page.left { -webkit-transform: translate3d(-100%, 0, 0); transform: translate3d(-100%, 0, 0); }
+.page.center { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+.page.right { -webkit-transform: translate3d(100%, 0, 0); transform: translate3d(100%, 0, 0); }
+.page.transition { -webkit-transition-duration: .25s; transition-duration: .25s; }
+
+.book.content {
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    overflow: scroll;
+    position: fixed;
+    background-color: white;
+    width: 200px;
+    display: none;
+}
+
+.book.content li {
+    cursor : pointer;
+}
