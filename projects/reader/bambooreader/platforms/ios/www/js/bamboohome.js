@@ -183,14 +183,14 @@ var BambooHome= {
                     "affliation":"未知",\
                     "date":"2014-10-14",\
                     "price":0,\
-                    "cover":"star.jpg",\
+                    "cover":"booka.jpg",\
                     "desc":"介绍了从地球到火星的探险故事"},\
                 {"title":"上古青铜器", \
                     "author": "未知", \
                     "affliation":"未知",\
                     "date":"2014-10-14",\
                     "price":0,\
-                    "cover":"antique.jpg",\
+                    "cover":"bookb.jpg",\
                     "desc":"介绍了中国古代青铜器"}\
                     ]'; 
 
